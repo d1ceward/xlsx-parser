@@ -5,15 +5,15 @@ module ExcelParser
   class Book
     getter zip : Zip::File
     getter sheets : Array(Sheet) = [] of Sheet
-    getter shared_strings : Hash(Int32, String)
+    getter shared_strings : Array(String)
 
     def initialize(io : IO)
       @zip = Zip::File.new(io)
-      @shared_strings = {} of Int32 => String
+      @shared_strings = [] of  String
 
       node = XML.parse(@zip["xl/sharedStrings.xml"].open(&.gets_to_end))
-      node.xpath_nodes("//*[name()='si']/*[name()='t']").each_with_index do |t_node, index|
-        @shared_strings[index] = t_node.content
+      node.xpath_nodes("//*[name()='si']/*[name()='t']").each do |t_node|
+        @shared_strings << t_node.content
       end
     end
 
