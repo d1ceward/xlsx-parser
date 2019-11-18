@@ -1,6 +1,8 @@
-# excel-parser
+# xlsx-parser
 
-TODO: Write a description here
+Crystal wrapper for parsing .xlsx spreadsheets
+
+:warning: Warning : This shard is still in development, this may have lots of bugs !
 
 ## Installation
 
@@ -8,8 +10,9 @@ TODO: Write a description here
 
    ```yaml
    dependencies:
-     excel-parser:
-       github: D1ceWard/excel-parser
+     xlsx-parser:
+       github: D1ceWard/xlsx-parser
+       version: 0.1.0
    ```
 
 2. Run `shards install`
@@ -17,18 +20,24 @@ TODO: Write a description here
 ## Usage
 
 ```crystal
-require "excel-parser"
+require "xlsx-parser"
+
+file_io = File.new("./my_super_spreadsheet.xlsx")
+book = ExcelParser::Book.new(file_io)
+
+book.sheets[0].rows.each do |row|
+  # Print row content
+  puts row
+end
+
+book.close
 ```
-
-TODO: Write usage instructions here
-
-## Development
-
-TODO: Write development instructions here
 
 ## Contributing
 
-1. Fork it (<https://github.com/D1ceWard/excel-parser/fork>)
+Bug reports and pull requests are welcome on GitHub at https://github.com/D1ceWard/xlsx-parse. By contributing you agree to abide by the Code of Merit.
+
+1. Fork it (<https://github.com/D1ceWard/xlsx-parser/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
