@@ -1,5 +1,5 @@
 require "spec"
-require "../src/xlsx_parser"
+require "../src/xlsx-parser"
 
 def file_io : IO
   File.new(__DIR__ + "/fixtures/valid.xlsx")
