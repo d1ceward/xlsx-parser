@@ -23,7 +23,7 @@ Crystal wrapper for parsing .xlsx spreadsheets
 require "xlsx-parser"
 
 file_io = File.new("./my_super_spreadsheet.xlsx")
-book = ExcelParser::Book.new(file_io)
+book = XlsxParser::Book.new(file_io)
 
 book.sheets[0].rows.each do |row|
   # Print row content

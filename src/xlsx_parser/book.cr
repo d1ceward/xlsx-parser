@@ -1,7 +1,7 @@
 require "zip"
 require "xml"
 
-module ExcelParser
+module XlsxParser
   class Book
     getter zip : Zip::File
     getter sheets : Array(Sheet) = [] of Sheet

@@ -1,4 +1,4 @@
-module ExcelParser
+module XlsxParser
   class Sheet
     def initialize(@book : Book, @file : String)
     end

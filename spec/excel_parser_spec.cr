@@ -1,7 +1,7 @@
 require "./spec_helper"
 
-describe ExcelParser do
+describe XlsxParser do
   it "should have a version" do
-    ExcelParser::VERSION.should be_truthy
+    XlsxParser::VERSION.should be_truthy
   end
 end
