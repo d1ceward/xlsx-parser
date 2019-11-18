@@ -7,8 +7,7 @@ module ExcelParser
       node = XML::Reader.new(@book.zip["xl/#{@file}"].open(&.gets_to_end))
       status = true
 
-      return Iterator.of do
-        Iterator.stop
+      Iterator.of do
         row = nil
         cell = nil
 
