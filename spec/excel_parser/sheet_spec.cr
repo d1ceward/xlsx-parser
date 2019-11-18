@@ -1,7 +1,7 @@
 require "../spec_helper"
 
-describe ExcelParser::Sheet do
-  book = ExcelParser::Book.new(file_io)
+describe XlsxParser::Sheet do
+  book = XlsxParser::Book.new(file_io)
 
   it "return correct rows number" do
     book.sheets[0].rows.size.should eq(3)
