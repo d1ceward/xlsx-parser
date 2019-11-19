@@ -19,8 +19,8 @@ module XlsxParser
           elsif node.name == "row" && node.node_type == XML::Reader::Type::END_ELEMENT
             break
           elsif node.name == "c" && node.node_type == XML::Reader::Type::ELEMENT
-            cell_type = node["t"]
-            cell = node["r"]
+            cell_type = node["t"]?
+            cell = node["r"]?
           elsif node.name == "v" && node.node_type == XML::Reader::Type::ELEMENT
             row[cell] = convert(node.read_inner_xml, cell_type) unless row.nil? || cell.nil?
           end
