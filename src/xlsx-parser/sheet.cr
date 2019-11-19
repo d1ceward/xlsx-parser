@@ -10,17 +10,19 @@ module XlsxParser
       Iterator.of do
         row = nil
         cell = nil
+        cell_type = nil
 
         loop do
           break unless (status = node.read)
           if node.name == "row" && node.node_type == XML::Reader::Type::ELEMENT
-            row = {} of String => String
+            row = {} of String => String | Int32
           elsif node.name == "row" && node.node_type == XML::Reader::Type::END_ELEMENT
             break
           elsif node.name == "c" && node.node_type == XML::Reader::Type::ELEMENT
+            cell_type = node["t"]
             cell = node["r"]
           elsif node.name == "v" && node.node_type == XML::Reader::Type::ELEMENT
-            row.not_nil![cell.not_nil!] = @book.shared_strings[node.read_inner_xml.to_i]
+            row[cell] = convert(node.read_inner_xml, cell_type) unless row.nil? || cell.nil?
           end
         end
 
@@ -29,6 +31,17 @@ module XlsxParser
         else
           Iterator.stop
         end
+      end
+    end
+
+    private def convert(value : String, type : String?) : String | Int32
+      case type
+      when "s"
+        @book.shared_strings[value.to_i]
+      when "n"
+        value.to_i
+      else
+        value
       end
     end
   end

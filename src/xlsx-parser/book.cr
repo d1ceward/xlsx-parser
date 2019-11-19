@@ -18,10 +18,16 @@ module XlsxParser
     end
 
     def sheets
-      node = XML.parse(@zip["xl/_rels/workbook.xml.rels"].open(&.gets_to_end))
-      nodes = node.xpath_nodes("//*[name()='Relationship' and contains(@Target,'sheet')]")
-      @sheets = nodes.map do |relation|
-        Sheet.new(self, relation["Target"])
+      workbook = XML.parse(@zip["xl/workbook.xml"].open(&.gets_to_end))
+      sheets_nodes = workbook.xpath_nodes("//*[name()='sheet']")
+
+      rels = XML.parse(@zip["xl/_rels/workbook.xml.rels"].open(&.gets_to_end))
+
+      @sheets = sheets_nodes.map do |sheet|
+        sheetfile = rels.xpath_string(
+          "string(//*[name()='Relationship' and contains(@Id,'#{sheet["id"]}')]/@Target)"
+        )
+        Sheet.new(self, sheetfile)
       end
     end
 

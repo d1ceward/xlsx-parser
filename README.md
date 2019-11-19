@@ -1,4 +1,4 @@
-# xlsx-parser (v0.1.2)
+# xlsx-parser (v0.2.0)
 
 Crystal wrapper for parsing .xlsx spreadsheets
 
@@ -12,7 +12,7 @@ Crystal wrapper for parsing .xlsx spreadsheets
    dependencies:
      xlsx-parser:
        github: D1ceWard/xlsx-parser
-       version: 0.1.2
+       version: 0.2.0
    ```
 
 2. Run `shards install`
