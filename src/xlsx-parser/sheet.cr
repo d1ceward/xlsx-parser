@@ -19,8 +19,8 @@ module XlsxParser
             if @node.node_type == XML::Reader::Type::ELEMENT
               row = {} of String => String | Int32
               row_index = node["r"]?
-            elsif XML::Reader::Type::END_ELEMENT
-              row = fill_empty_cells(row, row_index, cell)
+            else
+              row = inner_padding(row, row_index, cell)
               break
             end
           elsif @node.name == "c" && @node.node_type == XML::Reader::Type::ELEMENT
@@ -35,9 +35,18 @@ module XlsxParser
       end
     end
 
-    private def fill_empty_cells(row : Hash(String, String | Int32)?, row_index : String?, cell : String?)
-      new_row = {} of String => String | Int32
-      row
+    private def inner_padding(row : Hash(String, String | Int32)?, row_index : String?, cell : String?)
+      new_row = {} of String => String | Int32 | Nil
+      return new_row unless row && row_index && cell
+
+      cell_begin = "A"
+      cell_end = cell.gsub(row_index, "")
+
+      while (cell_begin < cell_end) || (cell_begin.size < cell_end.size)
+        cursor = "#{cell_begin}#{row_index}"
+        new_row[cursor] = row[cursor]?
+        cell_begin = cell_begin.succ
+      end
 
       new_row
     end
