@@ -1,6 +1,6 @@
 require "spec"
 require "../src/xlsx-parser"
 
-def file_io : IO
-  File.new(__DIR__ + "/fixtures/valid.xlsx")
+def dir_helper(path : String) : String
+  __DIR__ + path
 end

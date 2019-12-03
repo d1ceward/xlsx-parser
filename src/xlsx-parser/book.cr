@@ -7,8 +7,13 @@ module XlsxParser
     getter sheets : Array(Sheet) = [] of Sheet
     getter shared_strings : Array(String)
 
-    def initialize(io : IO)
-      @zip = Zip::File.new(io)
+    def initialize(file : IO | String, check_file_extension = true)
+      if file.is_a?(String) && check_file_extension
+        extname = File.extname(file).downcase
+        raise ArgumentError.new("Not a valid file format") if extname != ".xlsx"
+      end
+
+      @zip = Zip::File.new(file)
       @shared_strings = [] of  String
 
       node = XML.parse(@zip["xl/sharedStrings.xml"].open(&.gets_to_end))
