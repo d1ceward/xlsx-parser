@@ -42,7 +42,7 @@ module XlsxParser
       cell_begin = "A"
       cell_end = cell.gsub(row_index, "")
 
-      while (cell_begin < cell_end) || (cell_begin.size < cell_end.size)
+      while (cell_begin <= cell_end) || (cell_begin.size < cell_end.size)
         cursor = "#{cell_begin}#{row_index}"
         new_row[cursor] = row[cursor]?
         cell_begin = cell_begin.succ
