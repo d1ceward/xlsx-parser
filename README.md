@@ -1,4 +1,4 @@
-# xlsx-parser (v0.2.1)
+# xlsx-parser (v0.3.0)
 
 Crystal wrapper for parsing .xlsx spreadsheets
 
@@ -12,23 +12,37 @@ Crystal wrapper for parsing .xlsx spreadsheets
    dependencies:
      xlsx-parser:
        github: D1ceWard/xlsx-parser
-       version: 0.2.1
+       version: 0.3.0
    ```
 
 2. Run `shards install`
 
 ## Usage
 
+### With IO
 ```crystal
 require "xlsx-parser"
 
 file_io = File.new("./my_super_spreadsheet.xlsx")
 book = XlsxParser::Book.new(file_io)
+```
 
+### With file path
+```crystal
+require "xlsx-parser"
+
+book = XlsxParser::Book.new("./my_super_spreadsheet.xlsx")
+```
+
+### Print rows content
+```crystal
+# Iterate on each row of the first sheet
 book.sheets[0].rows.each do |row|
-  # Print row content
-  puts row
+  puts row #=> { "A1" => "Col A Row 1", "B1" => "Col B Row 1" }
 end
+
+# Second sheet
+book.sheets[1]
 
 book.close
 ```
