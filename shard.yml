@@ -1,14 +1,14 @@
 name: xlsx-parser
-version: 0.3.2
+version: 0.4.0
 
 authors:
   - D1ceWard
 
-crystal: 0.32.0
+crystal: 0.33.0
 
 license: MIT
 
 development_dependencies:
   ameba:
     github: veelenga/ameba
-    version: 0.10.1
+    version: 0.11.0
