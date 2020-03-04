@@ -4,6 +4,8 @@ Crystal wrapper for parsing .xlsx spreadsheets
 
 :warning: Warning : This shard is still in development, this may have lots of bugs !
 
+:rocket: Suggestions for improvement/new use cases are welcome.
+
 ## Installation
 
 1. Add the dependency to your `shard.yml`:
@@ -49,7 +51,7 @@ book.close
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/D1ceWard/xlsx-parse. By contributing you agree to abide by the Code of Merit.
+Bug reports and pull requests are welcome on GitHub at https://github.com/D1ceWard/xlsx-parser. By contributing you agree to abide by the Code of Merit.
 
 1. Fork it (<https://github.com/D1ceWard/xlsx-parser/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
