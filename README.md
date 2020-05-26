@@ -2,8 +2,6 @@
 
 Crystal wrapper for parsing .xlsx spreadsheets
 
-:warning: Warning : This shard is still in development, this may have lots of bugs !
-
 :rocket: Suggestions for improvement/new use cases are welcome.
 
 ## Installation
