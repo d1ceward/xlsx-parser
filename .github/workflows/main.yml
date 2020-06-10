@@ -1,20 +1,51 @@
-name: CI
-
+name: Main
 on:
   push:
     branches:
       - master
-
 jobs:
-  build:
+  lints:
+    name: Lints
     runs-on: ubuntu-latest
     container:
       image: crystallang/crystal
     steps:
-    - uses: actions/checkout@v1
-    - name: Install dependencies
-      run: shards install
-    - name: Run ameba
-      run: bin/ameba
-    - name: Run tests
-      run: crystal spec
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Crystal shard cache
+        uses: actions/cache@v1
+        with:
+          path: lib
+          key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-shards-
+
+      - name: Install dependencies
+        run: shards install
+
+      - name: Run ameba
+        run: bin/ameba
+
+  tests:
+    name: Tests
+    runs-on: ubuntu-latest
+    container:
+      image: crystallang/crystal
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v1
+
+      - name: Crystal shard cache
+        uses: actions/cache@v1
+        with:
+          path: lib
+          key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-shards-
+
+      - name: Install dependencies
+        run: shards install
+
+      - name: Run tests
+        run: crystal spec
