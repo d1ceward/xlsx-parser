@@ -1,9 +1,9 @@
-require "zip"
+require "compress/zip"
 require "xml"
 
 module XlsxParser
   class Book
-    getter zip : Zip::File
+    getter zip : Compress::Zip::File
     getter sheets : Array(Sheet) = [] of Sheet
     getter shared_strings : Array(String)
 
@@ -13,7 +13,7 @@ module XlsxParser
         raise ArgumentError.new("Not a valid file format") if extname != ".xlsx"
       end
 
-      @zip = Zip::File.new(file)
+      @zip = Compress::Zip::File.new(file)
       @shared_strings = [] of  String
 
       node = XML.parse(@zip["xl/sharedStrings.xml"].open(&.gets_to_end))
