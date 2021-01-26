@@ -24,6 +24,20 @@ describe XlsxParser::Book do
         XlsxParser::Book.new("./spec/fixtures/sample.zip", check_file_extension: true)
       end
     end
+
+    it "open an xlsx from io successfully" do
+      file_io = File.new("./spec/fixtures/sample.xlsx")
+      book = XlsxParser::Book.new(file_io)
+      book.close
+    end
+
+    it "fail to open a legacy xls from io" do
+      file_io = File.new("./spec/fixtures/invalid.xls")
+
+      expect_raises(ArgumentError, "Not a valid file format") do
+        XlsxParser::Book.new(file_io)
+      end
+    end
   end
 
   describe "#sheets" do

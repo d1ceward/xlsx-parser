@@ -13,8 +13,14 @@ module XlsxParser
         raise ArgumentError.new("Not a valid file format") if extname != ".xlsx"
       end
 
-      @zip = Compress::Zip::File.new(file)
-      @shared_strings = [] of  String
+      begin
+        zip_file = Compress::Zip::File.new(file)
+      rescue Compress::Zip::Error
+        raise ArgumentError.new("Not a valid file format")
+      end
+
+      @zip = zip_file
+      @shared_strings = [] of String
 
       node = XML.parse(@zip["xl/sharedStrings.xml"].open(&.gets_to_end))
       node.xpath_nodes("//*[name()='si']/*[name()='t']").each do |t_node|
