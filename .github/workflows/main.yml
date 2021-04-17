@@ -3,16 +3,19 @@ on:
   push:
     branches:
       - master
+  pull_request:
+    types:
+      - opened
+      - synchronize
 jobs:
   lints:
     name: Lints
     runs-on: ubuntu-latest
     container:
-      image: crystallang/crystal
+      image: crystallang/crystal:1.0.0
     steps:
       - name: Checkout code
-        uses: actions/checkout@v1
-
+        uses: actions/checkout@v2
       - name: Crystal shard cache
         uses: actions/cache@v1
         with:
@@ -20,22 +23,18 @@ jobs:
           key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
           restore-keys: |
             ${{ runner.os }}-shards-
-
       - name: Install dependencies
         run: shards install
-
       - name: Run ameba
         run: bin/ameba
-
   tests:
     name: Tests
     runs-on: ubuntu-latest
     container:
-      image: crystallang/crystal
+      image: crystallang/crystal:1.0.0
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
-
       - name: Crystal shard cache
         uses: actions/cache@v1
         with:
@@ -43,9 +42,7 @@ jobs:
           key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
           restore-keys: |
             ${{ runner.os }}-shards-
-
       - name: Install dependencies
         run: shards install
-
       - name: Run tests
         run: crystal spec
