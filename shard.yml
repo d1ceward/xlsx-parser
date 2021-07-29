@@ -1,10 +1,10 @@
 name: xlsx-parser
-version: 0.7.0
+version: 0.8.0
 authors:
   - D1ceWard <contact@d1ceward.com>
 description: Crystal wrapper for parsing .xlsx spreadsheets
 license: MIT
-crystal: 1.0.0
+crystal: 1.1.1
 
 development_dependencies:
   ameba:
