@@ -35,6 +35,7 @@ jobs:
         run: bin/ameba
   tests:
     name: Tests
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         container:
