@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: shards install
       - name: Run ameba
-        run: bin/ameba
+        run: crystal lib/ameba/bin/ameba.cr
   tests:
     name: Tests
     runs-on: ubuntu-latest
