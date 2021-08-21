@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -eo pipefail;
+trap "exit" INT
+
+echo "require \"./spec/**\"" > run_tests.cr
+
+crystal build run_tests.cr -D skip-integration
+
+kcov \
+  --clean \
+  --include-path=$(pwd)/src \
+  $(pwd)/coverage ./run_tests

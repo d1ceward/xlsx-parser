@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+set -eo pipefail;
+
+release_func() {
+  if [[ $(git branch | grep \* | cut -d ' ' -f2) != "master" ]]; then
+    echo -e "\033[0;31m===>\033[0m Not on master branch !"
+    echo -e "\033[0;31m=>\033[0m Please change to master branch..."
+    exit 1;
+  fi
+
+  if ! $(git diff-index --quiet HEAD --); then
+    echo -e "\033[0;31m===>\033[0m Uncommitted changes !"
+    echo -e "\033[0;31m=>\033[0m Please commit changes before..."
+    exit 1;
+  fi
+
+  if [[ ! "${1}" ]]; then
+    echo -e "\033[0;31m===>\033[0m Need an version number !"
+    echo -e "\033[0;31m=>\033[0m Please give version like 8.10"
+    exit 1;
+  fi
+
+  sed -i "s/  VERSION = \".*/  VERSION = \"${1}\"/" src/xlsx-parser.cr
+  sed -i "0,/version: 0.*/s//version: 0.${1}/" shard.yml
+  git add src/xlsx-parser.cr shard.yml
+  git commit -m "Bump version number to v${1}"
+  git push origin master
+
+  git tag "v${1}"
+  git push --tags
+}
+
+release_func "${@}"
