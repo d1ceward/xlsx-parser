@@ -1,2 +1,13 @@
-/lib/
-/bin/
+# Ignore crystal dependencies and generated binaries
+/lib
+/tmp
+
+# Ignore binaries
+/bin/*
+!/bin/coverage
+!/bin/release
+
+# Ignore coverage files
+/coverage
+/run_tests.cr
+/run_tests
