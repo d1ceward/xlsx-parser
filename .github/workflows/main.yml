@@ -11,8 +11,14 @@ jobs:
   lints:
     name: Lints
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container:
+          - crystallang/crystal:0.36.1
+          - crystallang/crystal:1.0.0
+          - crystallang/crystal:1.1.1
     container:
-      image: crystallang/crystal:1.0.0
+      image: ${{ matrix.container }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -29,9 +35,14 @@ jobs:
         run: bin/ameba
   tests:
     name: Tests
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        container:
+          - crystallang/crystal:0.36.1
+          - crystallang/crystal:1.0.0
+          - crystallang/crystal:1.1.1
     container:
-      image: crystallang/crystal:1.0.0
+      image: ${{ matrix.container }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v1
