@@ -21,7 +21,7 @@ release_func() {
   fi
 
   sed -i "s/  VERSION = \".*/  VERSION = \"${1}\"/" src/xlsx-parser.cr
-  sed -i "0,/version: 0.*/s//version: 0.${1}/" shard.yml
+  sed -i "0,/version: */s//version: ${1}/" shard.yml
   git add src/xlsx-parser.cr shard.yml
   git commit -m "Bump version number to v${1}"
   git push origin master

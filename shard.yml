@@ -1,5 +1,5 @@
 name: xlsx-parser
-version: 0.0.8.1
+version: 0.8.1
 authors:
   - D1ceWard <contact@d1ceward.com>
 description: Crystal wrapper for parsing .xlsx spreadsheets
