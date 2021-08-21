@@ -1,10 +1,13 @@
-# xlsx-parser (v0.8.1)
+# xlsx-parser (v0.8.2)
+![GitHub Workflow Status (event)](https://github.com/D1ceWard/xlsx-parser/actions/workflows/main.yml/badge.svg?branch=master)
+[![GitHub issues](https://img.shields.io/github/issues/D1ceWard/xlsx-parser)](https://github.com/D1ceWard/xlsx-parser/issues)
+[![GitHub license](https://img.shields.io/github/license/D1ceWard/xlsx-parser)](https://github.com/D1ceWard/xlsx-parser/blob/master/LICENSE)
 
 Crystal wrapper for parsing .xlsx spreadsheets
 
 :rocket: Suggestions for new improvements are welcome in the issue tracker.
 
-Work with Cystal versions >= 0.36.1 & < 2.0.0
+Note: Work with Cystal versions `>= 0.36.1, < 2.0.0`
 
 ## Installation
 
@@ -14,7 +17,7 @@ Work with Cystal versions >= 0.36.1 & < 2.0.0
    dependencies:
      xlsx-parser:
        github: D1ceWard/xlsx-parser
-       version: 0.8.1
+       version: 0.8.2
    ```
 
 2. Run `shards install`
@@ -48,6 +51,8 @@ book.sheets[1]
 
 book.close
 ```
+
+Documentation available here : https://d1ceward.github.io/xlsx-parser/
 
 ## Contributing
 

@@ -2,5 +2,5 @@ require "./xlsx-parser/book"
 require "./xlsx-parser/sheet"
 
 module XlsxParser
-  VERSION = "0.8.1"
+  VERSION = "0.8.2"
 end
