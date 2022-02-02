@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 0.35.1">
+<meta name="generator" content="Crystal Docs 1.2.2">
 <meta name="crystal_docs.project_version" content="0.8.2">
 <meta name="crystal_docs.project_name" content="xlsx-parser">
 
@@ -78,74 +78,60 @@
 
 
 <div class="main-content">
-<h1><a id="xlsx-parser-v0.8.2" class="anchor" href="#xlsx-parser-v0.8.2">
-  <svg class="octicon-link" aria-hidden="true">
+<h1><a id="xlsx-parser-v0.8.2" class="anchor" href="#xlsx-parser-v0.8.2">  <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>xlsx-parser (v0.8.2)</h1>
-
-<p><img src="https://github.com/D1ceWard/xlsx-parser/actions/workflows/main.yml/badge.svg?branch=master" alt="GitHub Workflow Status (event)"/>
-<a href="https://github.com/D1ceWard/xlsx-parser/issues"><img src="https://img.shields.io/github/issues/D1ceWard/xlsx-parser" alt="GitHub issues"/></a>
-<a href="https://github.com/D1ceWard/xlsx-parser/blob/master/LICENSE"><img src="https://img.shields.io/github/license/D1ceWard/xlsx-parser" alt="GitHub license"/></a></p>
-
+<p><img src="https://github.com/D1ceWard/xlsx-parser/actions/workflows/main.yml/badge.svg?branch=master" alt="GitHub Workflow Status (event)" />
+<a href="https://github.com/D1ceWard/xlsx-parser/issues"><img src="https://img.shields.io/github/issues/D1ceWard/xlsx-parser" alt="GitHub issues" /></a>
+<a href="https://github.com/D1ceWard/xlsx-parser/blob/master/LICENSE"><img src="https://img.shields.io/github/license/D1ceWard/xlsx-parser" alt="GitHub license" /></a></p>
 <p>Crystal wrapper for parsing .xlsx spreadsheets</p>
-
 <p>:rocket: Suggestions for new improvements are welcome in the issue tracker.</p>
-
-<p>Note: Work with Cystal versions <code>>= 0.36.1, < 2.0.0</code></p>
-
+<p>Note: Work with Cystal versions <code>&gt;= 0.36.1, &lt; 2.0.0</code></p>
 <h2><a id="installation" class="anchor" href="#installation">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Installation</h2>
-
-<ol><li>Add the dependency to your <code>shard.yml</code>:</li></ol>
-
-<p><code></code>`yaml
-   dependencies:</p>
-
-<pre><code class="language-crystal"> xlsx-parser:
-   github: D1ceWard/xlsx-parser
-   version: 0.8.2</code></pre>
-
-<p><code></code>`</p>
-
-<ol><li>Run <code>shards install</code></li></ol>
-
+<ol>
+<li>
+<p>Add the dependency to your <code>shard.yml</code>:</p>
+<pre><code class="language-yaml">dependencies:
+  xlsx-parser:
+    github: D1ceWard/xlsx-parser
+    version: 0.8.2</code></pre>
+</li>
+<li>
+<p>Run <code>shards install</code></p>
+</li>
+</ol>
 <h2><a id="usage" class="anchor" href="#usage">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Usage</h2>
-
 <h3><a id="with-io" class="anchor" href="#with-io">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>With IO</h3>
-
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;xlsx-parser&quot;</span>
 
 file_io <span class="o">=</span> <span class="t">File</span>.<span class="k">new</span>(<span class="s">&quot;./my_super_spreadsheet.xlsx&quot;</span>)
 book <span class="o">=</span> <span class="t">XlsxParser</span><span class="t">::</span><span class="t">Book</span>.<span class="k">new</span>(file_io)</code></pre>
-
 <h3><a id="with-file-path" class="anchor" href="#with-file-path">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>With file path</h3>
-
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;xlsx-parser&quot;</span>
 
 book <span class="o">=</span> <span class="t">XlsxParser</span><span class="t">::</span><span class="t">Book</span>.<span class="k">new</span>(<span class="s">&quot;./my_super_spreadsheet.xlsx&quot;</span>)</code></pre>
-
 <h3><a id="print-rows-content" class="anchor" href="#print-rows-content">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Print rows content</h3>
-
 <pre><code class="language-crystal"><span class="c"># Iterate on each row of the first sheet</span>
 book.sheets[<span class="n">0</span>].rows.each <span class="k">do</span> <span class="o">|</span>row<span class="o">|</span>
   puts row <span class="c">#=&gt; { &quot;A1&quot; =&gt; &quot;Col A Row 1&quot;, &quot;B1&quot; =&gt; &quot;Col B Row 1&quot; }</span>
@@ -155,26 +141,28 @@ book.sheets[<span class="n">0</span>].rows.each <span class="k">do</span> <span 
 book.sheets[<span class="n">1</span>]
 
 book.close</code></pre>
-
 <p>Documentation available here : https://d1ceward.github.io/xlsx-parser/</p>
-
 <h2><a id="contributing" class="anchor" href="#contributing">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Contributing</h2>
-
 <p>Bug reports and pull requests are welcome on GitHub at https://github.com/D1ceWard/xlsx-parser. By contributing you agree to abide by the Code of Merit.</p>
-
-<ol><li>Fork it (&lt;https://github.com/D1ceWard/xlsx-parser/fork>)</li><li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li><li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li><li>Push to the branch (<code>git push origin my-new-feature</code>)</li><li>Create a new Pull Request</li></ol>
-
+<ol>
+<li>Fork it (<a href="https://github.com/D1ceWard/xlsx-parser/fork">https://github.com/D1ceWard/xlsx-parser/fork</a>)</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Add some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create a new Pull Request</li>
+</ol>
 <h2><a id="contributors" class="anchor" href="#contributors">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
 </a>Contributors</h2>
-
-<ul><li><a href="https://github.com/D1ceWard">D1ceWard</a> - creator and maintainer</li></ul>
+<ul>
+<li><a href="https://github.com/D1ceWard">D1ceWard</a> - creator and maintainer</li>
+</ul>
 </div>
 </body>
 </html>
