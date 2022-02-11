@@ -6,6 +6,7 @@ module XlsxParser
     getter zip : Compress::Zip::File
     getter sheets : Array(Sheet) = [] of Sheet
     getter shared_strings : Array(String)
+    getter style_types : Array(Symbol | Nil)?
 
     def initialize(file : IO | String, check_file_extension = true)
       if file.is_a?(String) && check_file_extension
@@ -40,6 +41,10 @@ module XlsxParser
         )
         Sheet.new(self, sheetfile)
       end
+    end
+
+    def style_types
+      @style_types ||= Styles.new(self).style_types
     end
 
     def close
