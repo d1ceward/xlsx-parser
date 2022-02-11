@@ -12,6 +12,7 @@ module XlsxParser
         row_index = nil
         cell = nil
         cell_type = nil
+        cell_style_idx = nil
 
         loop do
           break unless @node.read
@@ -25,9 +26,10 @@ module XlsxParser
             end
           elsif @node.name == "c" && @node.node_type == XML::Reader::Type::ELEMENT
             cell_type = node["t"]?
+            cell_style_idx = node["s"]?
             cell = node["r"]?
           elsif @node.name == "v" && @node.node_type == XML::Reader::Type::ELEMENT && row && cell
-            row[cell] = convert(cell_type)
+            row[cell] = convert(cell_type, cell_style_idx)
           end
         end
 
@@ -51,7 +53,7 @@ module XlsxParser
       new_row
     end
 
-    private def convert(type : String?) : String | Int32
+    private def convert(type : String?, cell_style_idx) : String | Int32
       value = @node.read_inner_xml
 
       case type

@@ -53,4 +53,12 @@ describe XlsxParser::Book do
       book.close
     end
   end
+
+  describe "#style_types" do
+    it "return an array of Sheet class instance" do
+      book = XlsxParser::Book.new("./spec/fixtures/sample.xlsx")
+      book.style_types
+      book.close
+    end
+  end
 end

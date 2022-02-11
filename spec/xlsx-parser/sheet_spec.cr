@@ -26,4 +26,12 @@ describe XlsxParser::Sheet do
     book.sheets[1].rows.first.should eq({"A1" => "Not empty…"})
     book.close
   end
+
+  it "return parsed date successfully" do
+    book = XlsxParser::Book.new("./spec/fixtures/sample_dates.xlsx")
+    book.sheets[0].rows.each do |row|
+      p row
+    end
+    book.close
+  end
 end
