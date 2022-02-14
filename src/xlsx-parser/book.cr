@@ -44,7 +44,7 @@ module XlsxParser
     end
 
     def style_types
-      @style_types ||= Styles.new(self).style_types
+      @style_types ||= Styles::Parser.call(self)
     end
 
     def close
