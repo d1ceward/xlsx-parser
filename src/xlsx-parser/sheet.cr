@@ -2,6 +2,9 @@ module XlsxParser
   class Sheet
     getter node : XML::Reader
 
+    # All possible output types
+    alias Type = Bool | Float64 | Int32 | String
+
     def initialize(@book : Book, @file : String)
       @node = XML::Reader.new(@book.zip["xl/#{@file}"].open(&.gets_to_end))
     end
@@ -18,7 +21,7 @@ module XlsxParser
           break unless @node.read
           if @node.name == "row"
             if @node.node_type == XML::Reader::Type::ELEMENT
-              row = {} of String => String | Int32
+              row = {} of String => Type
               row_index = node["r"]?
             else
               row = inner_padding(row, row_index, cell)
@@ -29,7 +32,7 @@ module XlsxParser
             cell_style_idx = node["s"]?
             cell = node["r"]?
           elsif @node.name == "v" && @node.node_type == XML::Reader::Type::ELEMENT && row && cell
-            row[cell] = convert(cell_type, cell_style_idx)
+            row[cell] = convert(@node.read_inner_xml, cell_type, cell_style_idx)
           end
         end
 
@@ -37,8 +40,8 @@ module XlsxParser
       end
     end
 
-    private def inner_padding(row : Hash(String, String | Int32)?, row_index : String?, cell : String?)
-      new_row = {} of String => String | Int32 | Nil
+    private def inner_padding(row : Hash(String, Type)?, row_index : String?, cell : String?)
+      new_row = {} of String => Type | Nil
       return new_row unless row && row_index && cell
 
       cell_begin = "A"
@@ -53,17 +56,10 @@ module XlsxParser
       new_row
     end
 
-    private def convert(type : String?, cell_style_idx) : String | Int32
-      value = @node.read_inner_xml
+    private def convert(value : String, type : String?, cell_style_idx : String?)
+      style = @book.style_types[cell_style_idx.try(&.to_i) || 0]
 
-      case type
-      when "s"
-        @book.shared_strings[value.to_i]
-      when "n"
-        value.to_i
-      else
-        value
-      end
+      Styles::Converter.call(value, type, style, @book)
     end
   end
 end
