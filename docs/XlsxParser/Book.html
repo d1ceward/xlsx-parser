@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.2.2">
-<meta name="crystal_docs.project_version" content="0.8.2">
+<meta name="generator" content="Crystal Docs 1.3.2">
+<meta name="crystal_docs.project_version" content="1.0.0">
 <meta name="crystal_docs.project_name" content="xlsx-parser">
 
 
@@ -13,7 +13,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="xlsx-parser">
-  <title>XlsxParser::Book - xlsx-parser 0.8.2</title>
+  <title>XlsxParser::Book - xlsx-parser 1.0.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        0.8.2
+        1.0.0
       </span>
     </div>
   </div>
@@ -61,8 +61,38 @@
       
     </li>
   
-  <li class=" " data-id="xlsx-parser/XlsxParser/Sheet" data-name="xlsxparser::sheet">
+  <li class="parent " data-id="xlsx-parser/XlsxParser/Sheet" data-name="xlsxparser::sheet">
       <a href="../XlsxParser/Sheet.html">Sheet</a>
+      
+        <ul>
+  
+  <li class=" " data-id="xlsx-parser/XlsxParser/Sheet/Type" data-name="xlsxparser::sheet::type">
+      <a href="../XlsxParser/Sheet/Type.html">Type</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+  <li class="parent " data-id="xlsx-parser/XlsxParser/Styles" data-name="xlsxparser::styles">
+      <a href="../XlsxParser/Styles.html">Styles</a>
+      
+        <ul>
+  
+  <li class=" " data-id="xlsx-parser/XlsxParser/Styles/Converter" data-name="xlsxparser::styles::converter">
+      <a href="../XlsxParser/Styles/Converter.html">Converter</a>
+      
+    </li>
+  
+  <li class=" " data-id="xlsx-parser/XlsxParser/Styles/Parser" data-name="xlsxparser::styles::parser">
+      <a href="../XlsxParser/Styles/Parser.html">Parser</a>
+      
+    </li>
+  
+</ul>
+
       
     </li>
   
@@ -113,12 +143,38 @@
   </h2>
   
     
-      xlsx-parser/book.cr
+      <a href="https://github.com/D1ceWard/xlsx-parser/blob/673cfdc3282125012cc33d57e00d3203470c087d/src/xlsx-parser/book.cr#L5" target="_blank">
+        xlsx-parser/book.cr
+      </a>
     
     <br/>
   
 
 
+
+  
+    <h2>
+      <a id="constant-summary" class="anchor" href="#constant-summary">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+      Constant Summary
+    </h2>
+  
+  <dl>
+    
+      <dt class="entry-const" id="TIME_1900">
+        <strong>TIME_1900</strong> = <code><span class="t">Time</span>.utc(<span class="n">1899</span>, <span class="n">12</span>, <span class="n">30</span>)</code>
+      </dt>
+      
+    
+      <dt class="entry-const" id="TIME_1904">
+        <strong>TIME_1904</strong> = <code><span class="t">Time</span>.utc(<span class="n">1904</span>, <span class="n">1</span>, <span class="n">1</span>)</code>
+      </dt>
+      
+    
+  </dl>
 
 
 
@@ -154,6 +210,11 @@
   <ul class="list-summary">
     
       <li class="entry-summary">
+        <a href="#base_time-instance-method" class="signature"><strong>#base_time</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#close-instance-method" class="signature"><strong>#close</strong></a>
         
       </li>
@@ -165,6 +226,11 @@
     
       <li class="entry-summary">
         <a href="#sheets-instance-method" class="signature"><strong>#sheets</strong></a>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#style_types-instance-method" class="signature"><strong>#style_types</strong></a>
         
       </li>
     
@@ -224,6 +290,8 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/D1ceWard/xlsx-parser/blob/673cfdc3282125012cc33d57e00d3203470c087d/src/xlsx-parser/book.cr#L15" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -241,6 +309,22 @@
     Instance Method Detail
   </h2>
   
+    <div class="entry-detail" id="base_time-instance-method">
+      <div class="signature">
+        
+        def <strong>base_time</strong>
+
+        <a class="method-permalink" href="#base_time-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D1ceWard/xlsx-parser/blob/673cfdc3282125012cc33d57e00d3203470c087d/src/xlsx-parser/book.cr#L58" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
     <div class="entry-detail" id="close-instance-method">
       <div class="signature">
         
@@ -251,6 +335,8 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/D1ceWard/xlsx-parser/blob/673cfdc3282125012cc33d57e00d3203470c087d/src/xlsx-parser/book.cr#L54" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -266,6 +352,8 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/D1ceWard/xlsx-parser/blob/673cfdc3282125012cc33d57e00d3203470c087d/src/xlsx-parser/book.cr#L8" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -280,6 +368,24 @@
       <br/>
       <div>
         
+          [<a href="https://github.com/D1ceWard/xlsx-parser/blob/673cfdc3282125012cc33d57e00d3203470c087d/src/xlsx-parser/book.cr#L36" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="style_types-instance-method">
+      <div class="signature">
+        
+        def <strong>style_types</strong>
+
+        <a class="method-permalink" href="#style_types-instance-method">#</a>
+      </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/D1ceWard/xlsx-parser/blob/673cfdc3282125012cc33d57e00d3203470c087d/src/xlsx-parser/book.cr#L50" target="_blank">View source</a>]
+        
       </div>
     </div>
   
@@ -293,6 +399,8 @@
       
       <br/>
       <div>
+        
+          [<a href="https://github.com/D1ceWard/xlsx-parser/blob/673cfdc3282125012cc33d57e00d3203470c087d/src/xlsx-parser/book.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
