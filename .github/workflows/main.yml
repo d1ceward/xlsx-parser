@@ -15,11 +15,6 @@ jobs:
     strategy:
       matrix:
         container:
-          - crystallang/crystal:0.36.1
-          - crystallang/crystal:1.0.0
-          - crystallang/crystal:1.1.1
-          - crystallang/crystal:1.2.2
-          - crystallang/crystal:1.3.2
           - crystallang/crystal:1.4.1
     container:
       image: ${{ matrix.container }}
@@ -43,11 +38,6 @@ jobs:
     strategy:
       matrix:
         container:
-          - crystallang/crystal:0.36.1
-          - crystallang/crystal:1.0.0
-          - crystallang/crystal:1.1.1
-          - crystallang/crystal:1.2.2
-          - crystallang/crystal:1.3.2
           - crystallang/crystal:1.4.1
     container:
       image: ${{ matrix.container }}

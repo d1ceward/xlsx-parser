@@ -7,7 +7,7 @@ Crystal wrapper for parsing .xlsx spreadsheets
 
 :rocket: Suggestions for new improvements are welcome in the issue tracker.
 
-Note: Work with Cystal versions `>= 0.36.1, < 2.0.0`
+Note: Work with Cystal versions `>= 1.4.0, < 2.0.0`
 
 ## Installation
 
