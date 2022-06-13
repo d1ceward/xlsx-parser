@@ -3,7 +3,7 @@ module XlsxParser
     getter node : XML::Reader
 
     # All possible output types
-    alias Type = Bool | Float64 | Int32 | String
+    alias Type = Bool | Float64 | Int32 | String | Time
 
     def initialize(@book : Book, @file : String)
       @node = XML::Reader.new(@book.zip["xl/#{@file}"].open(&.gets_to_end))

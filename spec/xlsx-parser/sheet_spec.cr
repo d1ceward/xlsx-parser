@@ -28,10 +28,16 @@ describe XlsxParser::Sheet do
   end
 
   it "return parsed date successfully" do
+    data = [
+      { "A1" => "Table 1", "B1" => nil },
+      { "A2" => nil, "B2" => nil },
+      { "A3" => "Date", "B3" => Time.utc(2021, 1, 1) },
+      { "A4" => "Datetime 00:00:00", "B4" => Time.utc(2021, 1, 1) },
+      { "A5" => "Datetime", "B5" =>  Time.utc(2021, 1, 1, 23, 59, 58, nanosecond: 999997616) }
+    ]
+
     book = XlsxParser::Book.new("./spec/fixtures/sample_dates.xlsx")
-    book.sheets[0].rows.each do |row|
-      p row
-    end
+    book.sheets[0].rows.each_with_index { |row, index| row.should eq(data[index]) }
     book.close
   end
 end

@@ -19,6 +19,7 @@ jobs:
           - crystallang/crystal:1.1.1
           - crystallang/crystal:1.2.2
           - crystallang/crystal:1.3.2
+          - crystallang/crystal:1.4.1
     container:
       image: ${{ matrix.container }}
     steps:
@@ -46,6 +47,7 @@ jobs:
           - crystallang/crystal:1.1.1
           - crystallang/crystal:1.2.2
           - crystallang/crystal:1.3.2
+          - crystallang/crystal:1.4.1
     container:
       image: ${{ matrix.container }}
     steps:
