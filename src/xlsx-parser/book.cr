@@ -7,6 +7,10 @@ module XlsxParser
     getter sheets : Array(Sheet) = [] of Sheet
     getter shared_strings : Array(String)
     getter style_types : Array(Symbol | Nil)?
+    getter base_time : Time?
+
+    TIME_1900 = Time.utc(1899, 12, 30)
+    TIME_1904 = Time.utc(1904, 1, 1)
 
     def initialize(file : IO | String, check_file_extension = true)
       if file.is_a?(String) && check_file_extension
@@ -49,6 +53,22 @@ module XlsxParser
 
     def close
       @zip.close
+    end
+
+    def base_time
+      @base_time ||= begin
+        result = TIME_1900
+
+        workbook = XML.parse(@zip["xl/workbook.xml"].open(&.gets_to_end))
+        workbook.xpath_nodes("//*[name()='workbookPr']").each do |workbook_pr|
+          next unless workbook_pr.try(&.attributes["date1904"]).try(&.content) =~ /true|1/i
+
+          result = TIME_1904
+          break
+        end
+
+        result
+      end
     end
   end
 end
