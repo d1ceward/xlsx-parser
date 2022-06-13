@@ -12,6 +12,7 @@ module XlsxParser
     TIME_1900 = Time.utc(1899, 12, 30)
     TIME_1904 = Time.utc(1904, 1, 1)
 
+    # Open given file/filename and store shared strings data
     def initialize(file : IO | String, check_file_extension = true)
       if file.is_a?(String) && check_file_extension
         extname = File.extname(file).downcase
@@ -33,6 +34,7 @@ module XlsxParser
       end
     end
 
+    # Return a array of sheets
     def sheets
       workbook = XML.parse(@zip["xl/workbook.xml"].open(&.gets_to_end))
       sheets_nodes = workbook.xpath_nodes("//*[name()='sheet']")
@@ -47,14 +49,17 @@ module XlsxParser
       end
     end
 
-    def style_types
-      @style_types ||= Styles::Parser.call(self)
-    end
-
+    # Close previously opened given file/filename
     def close
       @zip.close
     end
 
+    def style_types
+      @style_types ||= Styles::Parser.call(self)
+    end
+
+    # Return and store base time given from workbookPr
+    # http://msdn.microsoft.com/en-us/library/ff530155(v=office.12).aspx
     def base_time
       @base_time ||= begin
         result = TIME_1900

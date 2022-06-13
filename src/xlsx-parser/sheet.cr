@@ -9,6 +9,7 @@ module XlsxParser
       @node = XML::Reader.new(@book.zip["xl/#{@file}"].open(&.gets_to_end))
     end
 
+    # Return a iterator which return an hash per row that includes the cell ids and values
     def rows
       Iterator.of do
         row = nil
@@ -40,6 +41,7 @@ module XlsxParser
       end
     end
 
+    # Empty cells are being padded in using this function
     private def inner_padding(row : Hash(String, Type)?, row_index : String?, cell : String?)
       new_row = {} of String => Type | Nil
       return new_row unless row && row_index && cell
