@@ -1,7 +1,7 @@
 # xlsx-parser (v1.0.2)
-![GitHub Workflow Status (event)](https://github.com/D1ceWard/xlsx-parser/actions/workflows/main.yml/badge.svg?branch=master)
-[![GitHub issues](https://img.shields.io/github/issues/D1ceWard/xlsx-parser)](https://github.com/D1ceWard/xlsx-parser/issues)
-[![GitHub license](https://img.shields.io/github/license/D1ceWard/xlsx-parser)](https://github.com/D1ceWard/xlsx-parser/blob/master/LICENSE)
+![GitHub Workflow Status (event)](https://github.com/d1ceward/xlsx-parser/actions/workflows/main.yml/badge.svg?branch=master)
+[![GitHub issues](https://img.shields.io/github/issues/d1ceward/xlsx-parser)](https://github.com/d1ceward/xlsx-parser/issues)
+[![GitHub license](https://img.shields.io/github/license/d1ceward/xlsx-parser)](https://github.com/d1ceward/xlsx-parser/blob/master/LICENSE)
 
 Crystal wrapper for parsing .xlsx spreadsheets
 
@@ -16,7 +16,7 @@ Note: Work with Cystal versions `>= 0.36.0, < 2.0.0`
    ```yaml
    dependencies:
      xlsx-parser:
-       github: D1ceWard/xlsx-parser
+       github: d1ceward/xlsx-parser
        version: 1.0.2
    ```
 
@@ -56,9 +56,9 @@ Documentation available here : https://d1ceward.github.io/xlsx-parser/
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/D1ceWard/xlsx-parser. By contributing you agree to abide by the Code of Merit.
+Bug reports and pull requests are welcome on GitHub at https://github.com/d1ceward/xlsx-parser. By contributing you agree to abide by the Code of Merit.
 
-1. Fork it (<https://github.com/D1ceWard/xlsx-parser/fork>)
+1. Fork it (<https://github.com/d1ceward/xlsx-parser/fork>)
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Commit your changes (`git commit -am 'Add some feature'`)
 4. Push to the branch (`git push origin my-new-feature`)
@@ -66,4 +66,4 @@ Bug reports and pull requests are welcome on GitHub at https://github.com/D1ceWa
 
 ## Contributors
 
-- [D1ceWard](https://github.com/D1ceWard) - creator and maintainer
+- [d1ceward](https://github.com/d1ceward) - creator and maintainer
