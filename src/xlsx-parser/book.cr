@@ -66,7 +66,7 @@ module XlsxParser
 
         workbook = XML.parse(@zip["xl/workbook.xml"].open(&.gets_to_end))
         workbook.xpath_nodes("//*[name()='workbookPr']").each do |workbook_pr|
-          next unless workbook_pr.try(&.attributes["date1904"]).try(&.content) =~ /true|1/i
+          next unless workbook_pr.try(&.attributes["date1904"]?).try(&.content) =~ /true|1/i
 
           result = TIME_1904
           break
