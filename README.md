@@ -1,4 +1,4 @@
-# xlsx-parser (v1.0.1)
+# xlsx-parser (v1.0.2)
 ![GitHub Workflow Status (event)](https://github.com/D1ceWard/xlsx-parser/actions/workflows/main.yml/badge.svg?branch=master)
 [![GitHub issues](https://img.shields.io/github/issues/D1ceWard/xlsx-parser)](https://github.com/D1ceWard/xlsx-parser/issues)
 [![GitHub license](https://img.shields.io/github/license/D1ceWard/xlsx-parser)](https://github.com/D1ceWard/xlsx-parser/blob/master/LICENSE)
@@ -17,7 +17,7 @@ Note: Work with Cystal versions `>= 0.36.0, < 2.0.0`
    dependencies:
      xlsx-parser:
        github: D1ceWard/xlsx-parser
-       version: 1.0.1
+       version: 1.0.2
    ```
 
 2. Run `shards install`
