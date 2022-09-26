@@ -14,7 +14,7 @@ module XlsxParser::Styles
         book.shared_strings[value.to_i]
       when "n"
         value.to_f
-      when 'b'
+      when "b"
         value.to_i == 1
       when :string
         value
@@ -32,9 +32,9 @@ module XlsxParser::Styles
     end
 
     private def self.convert_unknown(value : String)
-      if value.try(&.to_i).to_s == value
+      if value.to_i?.to_s == value
         value.to_i
-      elsif value.try(&.to_i).to_s == value
+      elsif value.to_f?.to_s == value
         value.to_f
       else
         value

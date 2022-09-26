@@ -17,7 +17,8 @@ describe XlsxParser::Sheet do
     book = XlsxParser::Book.new("./spec/fixtures/sample.xlsx")
     book.sheets[0].rows.first.should eq({ "A1" => "First Name", "B1" => "Last Name", "C1" => "Email",
                                           "D1" => "Address", "E1" => "Surprise", "F1" => "Phone",
-                                          "G1" => "Column with int", "H1" => "Empty column" })
+                                          "G1" => "Column with int", "H1" => "Column with float",
+                                          "I1" => "Column with str", "J1" => "Empty column" })
     book.close
   end
 
