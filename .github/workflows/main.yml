@@ -55,7 +55,7 @@ jobs:
         uses: actions/cache@v3
         with:
           path: lib
-          key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
+          key: ${{ runner.os }}-${{ matrix.crystal }}-shards-${{ hashFiles('**/shard.lock') }}
       - name: Install dependencies
         run: shards install --production
       - name: Run tests
