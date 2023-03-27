@@ -30,7 +30,7 @@ module XlsxParser
             end
           elsif @node.name == "c" && @node.node_type == XML::Reader::Type::ELEMENT
             cell_type = node["t"]?
-            cell_style_idx = node["s"]?
+            cell_style_idx = node["s"]?.try(&.to_i)
             cell = node["r"]?
           elsif @node.name == "v" && @node.node_type == XML::Reader::Type::ELEMENT && row && cell
             row[cell] = convert(@node.read_inner_xml, cell_type, cell_style_idx)
@@ -58,8 +58,8 @@ module XlsxParser
       new_row
     end
 
-    private def convert(value : String, type : String?, cell_style_idx : String?)
-      style = @book.style_types[cell_style_idx.try(&.to_i) || 0]
+    private def convert(value : String, type : String?, cell_style_idx : Int32?)
+      style = cell_style_idx ? @book.style_types[cell_style_idx] : nil
 
       Styles::Converter.call(value, type, style, @book)
     end

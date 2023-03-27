@@ -28,9 +28,11 @@ module XlsxParser
       @zip = zip_file
       @shared_strings = [] of String
 
-      node = XML.parse(@zip["xl/sharedStrings.xml"].open(&.gets_to_end))
-      node.xpath_nodes("//*[name()='si']/*[name()='t']").each do |t_node|
-        @shared_strings << t_node.content
+      if @zip["xl/sharedStrings.xml"]?
+        node = XML.parse(@zip["xl/sharedStrings.xml"].open(&.gets_to_end))
+        node.xpath_nodes("//*[name()='si']/*[name()='t']").each do |t_node|
+          @shared_strings << t_node.content
+        end
       end
     end
 

@@ -55,4 +55,10 @@ describe XlsxParser::Sheet do
     book.sheets[0].rows.each_with_index { |row, index| row.should eq(data[index]) }
     book.close
   end
+
+  it "return correct data format with unspecified style in XML" do
+    book = XlsxParser::Book.new("./spec/fixtures/sample_unspecified_style.xlsx")
+    book.sheets[0].rows.first.should eq({ "A1" => 42, "B1" => "string", "C1" => 2.3 })
+    book.close
+  end
 end
