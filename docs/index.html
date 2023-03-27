@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="generator" content="Crystal Docs 1.4.1">
-<meta name="crystal_docs.project_version" content="1.0.3">
+<meta name="generator" content="Crystal Docs 1.7.2">
+<meta name="crystal_docs.project_version" content="1.0.4">
 <meta name="crystal_docs.project_name" content="xlsx-parser">
 
 
@@ -13,7 +13,7 @@
 <script type="text/javascript" src="js/doc.js"></script>
 
   <meta name="repository-name" content="xlsx-parser">
-  <title>xlsx-parser 1.0.3</title>
+  <title>xlsx-parser 1.0.4</title>
   <script type="text/javascript">
   CrystalDocs.base_path = "";
   </script>
@@ -39,7 +39,7 @@
       </h1>
 
       <span class="project-version">
-        1.0.3
+        1.0.4
       </span>
     </div>
   </div>
@@ -108,10 +108,10 @@
 
 
 <div class="main-content">
-<h1><a id="xlsx-parser-v1.0.2" class="anchor" href="#xlsx-parser-v1.0.2">  <svg class="octicon-link" aria-hidden="true">
+<h1><a id="xlsx-parser-v1.0.3" class="anchor" href="#xlsx-parser-v1.0.3">  <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
   </svg>
-</a>xlsx-parser (v1.0.2)</h1>
+</a>xlsx-parser (v1.0.3)</h1>
 <p><img src="https://github.com/d1ceward/xlsx-parser/actions/workflows/main.yml/badge.svg?branch=master" alt="GitHub Workflow Status (event)" />
 <a href="https://github.com/d1ceward/xlsx-parser/issues"><img src="https://img.shields.io/github/issues/d1ceward/xlsx-parser" alt="GitHub issues" /></a>
 <a href="https://github.com/d1ceward/xlsx-parser/blob/master/LICENSE"><img src="https://img.shields.io/github/license/d1ceward/xlsx-parser" alt="GitHub license" /></a></p>
@@ -129,7 +129,7 @@
 <pre><code class="language-yaml">dependencies:
   xlsx-parser:
     github: d1ceward/xlsx-parser
-    version: 1.0.2</code></pre>
+    version: 1.0.3</code></pre>
 </li>
 <li>
 <p>Run <code>shards install</code></p>
@@ -147,8 +147,8 @@
 </a>With IO</h3>
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;xlsx-parser&quot;</span>
 
-file_io <span class="o">=</span> <span class="t">File</span>.<span class="k">new</span>(<span class="s">&quot;./my_super_spreadsheet.xlsx&quot;</span>)
-book <span class="o">=</span> <span class="t">XlsxParser</span><span class="t">::</span><span class="t">Book</span>.<span class="k">new</span>(file_io)</code></pre>
+file_io <span class="o">=</span> <span class="t">File</span>.new(<span class="s">&quot;./my_super_spreadsheet.xlsx&quot;</span>)
+book <span class="o">=</span> <span class="t">XlsxParser</span><span class="t">::</span><span class="t">Book</span>.new(file_io)</code></pre>
 <h3><a id="with-file-path" class="anchor" href="#with-file-path">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
@@ -156,7 +156,7 @@ book <span class="o">=</span> <span class="t">XlsxParser</span><span class="t">:
 </a>With file path</h3>
 <pre><code class="language-crystal"><span class="k">require</span> <span class="s">&quot;xlsx-parser&quot;</span>
 
-book <span class="o">=</span> <span class="t">XlsxParser</span><span class="t">::</span><span class="t">Book</span>.<span class="k">new</span>(<span class="s">&quot;./my_super_spreadsheet.xlsx&quot;</span>)</code></pre>
+book <span class="o">=</span> <span class="t">XlsxParser</span><span class="t">::</span><span class="t">Book</span>.new(<span class="s">&quot;./my_super_spreadsheet.xlsx&quot;</span>)</code></pre>
 <h3><a id="print-rows-content" class="anchor" href="#print-rows-content">
   <svg class="octicon-link" aria-hidden="true">
     <use href="#octicon-link"/>
