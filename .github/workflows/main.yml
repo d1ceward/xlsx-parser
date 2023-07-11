@@ -33,25 +33,15 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        crystal:
-          - 0.36.1
-          - 1.0.0
-          - 1.1.1
-          - 1.2.2
-          - 1.3.2
-          - 1.4.1
-          - 1.5.1
-          - 1.6.2
-          - 1.7.3
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+      - name: Set crystal version environement variable
+        run: echo "CRYSTAL_VERSION=$(cat .crystal-version)" >> $GITHUB_ENV
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
-          crystal: ${{ matrix.crystal }}
+          crystal: ${{ env.CRYSTAL_VERSION }}
       - name: Crystal shard cache
         uses: actions/cache@v3
         with:
