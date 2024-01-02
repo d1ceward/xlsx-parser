@@ -1,7 +1,6 @@
 Globs:
-  - '**/*.cr'
-  - '!lib'
-  - '!tmp'
+  - 'src/**/*.cr'
+  - 'spec/**/*.cr'
 
 Lint/Formatting:
   Enabled: false
