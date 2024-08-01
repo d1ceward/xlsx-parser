@@ -4,8 +4,8 @@
   <meta charset="utf-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Crystal Docs 1.8.2">
-<meta name="crystal_docs.project_version" content="1.1.0">
+<meta name="generator" content="Crystal Docs 1.12.2">
+<meta name="crystal_docs.project_version" content="1.2.0">
 <meta name="crystal_docs.project_name" content="xlsx-parser">
 
 
@@ -14,7 +14,7 @@
 <script type="text/javascript" src="../js/doc.js"></script>
 
   <meta name="repository-name" content="xlsx-parser">
-  <title>XlsxParser::Book - xlsx-parser 1.1.0</title>
+  <title>XlsxParser::Book - xlsx-parser 1.2.0</title>
   <script type="text/javascript">
     CrystalDocs.base_path = "../";
   </script>
@@ -23,7 +23,7 @@
 
 <svg class="hidden">
   <symbol id="octicon-link" viewBox="0 0 16 16">
-    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+    <path fill="currentColor" fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
   </symbol>
 </svg>
 <input type="checkbox" id="sidebar-btn">
@@ -45,7 +45,7 @@
       </h1>
 
       <span class="project-version">
-        1.1.0
+        1.2.0
       </span>
     </div>
   </div>
@@ -116,7 +116,7 @@
 <div class="main-content">
 <h1 class="type-name">
 
-  <span class="kind">class</span> XlsxParser::Book
+  <span class="kind">class</span> XlsxParser::<wbr>Book
 
 </h1>
 
@@ -149,7 +149,7 @@
   </h2>
   
     
-      <a href="https://github.com/d1ceward/xlsx-parser/blob/3718a7c632045efd9f92826664f8dff00fe4d9f8/src/xlsx-parser/book.cr#L5" target="_blank">
+      <a href="https://github.com/d1ceward/xlsx-parser/blob/81224b1db08fe6c46daa4bf42b79bf85bc6f8200/src/xlsx-parser/book.cr#L5" target="_blank">
         xlsx-parser/book.cr
       </a>
     
@@ -207,6 +207,8 @@
 
 
 
+
+
   <h2>
     <a id="instance-method-summary" class="anchor" href="#instance-method-summary">
   <svg class="octicon-link" aria-hidden="true">
@@ -237,6 +239,20 @@
       </li>
     
       <li class="entry-summary">
+        <a href="#sheet%28name%3AString%29%3ASheet%7CNil-instance-method" class="signature"><strong>#sheet</strong>(name : String) : Sheet | Nil</a>
+        
+          <div class="summary"><p>Return sheet with given name</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
+        <a href="#sheet_exists%3F%28name%3AString%29-instance-method" class="signature"><strong>#sheet_exists?</strong>(name : String)</a>
+        
+          <div class="summary"><p>Return true if sheet with given name exists otherwise return false</p></div>
+        
+      </li>
+    
+      <li class="entry-summary">
         <a href="#sheets-instance-method" class="signature"><strong>#sheets</strong></a>
         
           <div class="summary"><p>Return a array of sheets</p></div>
@@ -257,8 +273,6 @@
 
 
 
-
-
 <div class="methods-inherited">
   
     
@@ -270,7 +284,13 @@
     
 
 
+    
+
+
   
+    
+
+
     
 
 
@@ -309,11 +329,13 @@
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/xlsx-parser/blob/3718a7c632045efd9f92826664f8dff00fe4d9f8/src/xlsx-parser/book.cr#L16" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/xlsx-parser/blob/81224b1db08fe6c46daa4bf42b79bf85bc6f8200/src/xlsx-parser/book.cr#L16" target="_blank">View source</a>]
         
       </div>
     </div>
   
+
+
 
 
 
@@ -345,7 +367,7 @@ http://msdn.microsoft.com/en-us/library/ff530155(v=office.12).aspx</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/xlsx-parser/blob/3718a7c632045efd9f92826664f8dff00fe4d9f8/src/xlsx-parser/book.cr#L65" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/xlsx-parser/blob/81224b1db08fe6c46daa4bf42b79bf85bc6f8200/src/xlsx-parser/book.cr#L76" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -366,7 +388,7 @@ http://msdn.microsoft.com/en-us/library/ff530155(v=office.12).aspx</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/xlsx-parser/blob/3718a7c632045efd9f92826664f8dff00fe4d9f8/src/xlsx-parser/book.cr#L55" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/xlsx-parser/blob/81224b1db08fe6c46daa4bf42b79bf85bc6f8200/src/xlsx-parser/book.cr#L66" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -382,7 +404,49 @@ http://msdn.microsoft.com/en-us/library/ff530155(v=office.12).aspx</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/xlsx-parser/blob/3718a7c632045efd9f92826664f8dff00fe4d9f8/src/xlsx-parser/book.cr#L8" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/xlsx-parser/blob/81224b1db08fe6c46daa4bf42b79bf85bc6f8200/src/xlsx-parser/book.cr#L8" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sheet(name:String):Sheet|Nil-instance-method">
+      <div class="signature">
+        
+        def <strong>sheet</strong>(name : String) : <a href="../XlsxParser/Sheet.html">Sheet</a> | Nil
+
+        <a class="method-permalink" href="#sheet%28name%3AString%29%3ASheet%7CNil-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Return sheet with given name</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/d1ceward/xlsx-parser/blob/81224b1db08fe6c46daa4bf42b79bf85bc6f8200/src/xlsx-parser/book.cr#L61" target="_blank">View source</a>]
+        
+      </div>
+    </div>
+  
+    <div class="entry-detail" id="sheet_exists?(name:String)-instance-method">
+      <div class="signature">
+        
+        def <strong>sheet_exists?</strong>(name : String)
+
+        <a class="method-permalink" href="#sheet_exists%3F%28name%3AString%29-instance-method">#</a>
+      </div>
+      
+        <div class="doc">
+          
+          <p>Return true if sheet with given name exists otherwise return false</p>
+        </div>
+      
+      <br/>
+      <div>
+        
+          [<a href="https://github.com/d1ceward/xlsx-parser/blob/81224b1db08fe6c46daa4bf42b79bf85bc6f8200/src/xlsx-parser/book.cr#L56" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -403,7 +467,7 @@ http://msdn.microsoft.com/en-us/library/ff530155(v=office.12).aspx</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/xlsx-parser/blob/3718a7c632045efd9f92826664f8dff00fe4d9f8/src/xlsx-parser/book.cr#L40" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/xlsx-parser/blob/81224b1db08fe6c46daa4bf42b79bf85bc6f8200/src/xlsx-parser/book.cr#L40" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -419,7 +483,7 @@ http://msdn.microsoft.com/en-us/library/ff530155(v=office.12).aspx</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/xlsx-parser/blob/3718a7c632045efd9f92826664f8dff00fe4d9f8/src/xlsx-parser/book.cr#L59" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/xlsx-parser/blob/81224b1db08fe6c46daa4bf42b79bf85bc6f8200/src/xlsx-parser/book.cr#L70" target="_blank">View source</a>]
         
       </div>
     </div>
@@ -435,13 +499,11 @@ http://msdn.microsoft.com/en-us/library/ff530155(v=office.12).aspx</p>
       <br/>
       <div>
         
-          [<a href="https://github.com/d1ceward/xlsx-parser/blob/3718a7c632045efd9f92826664f8dff00fe4d9f8/src/xlsx-parser/book.cr#L6" target="_blank">View source</a>]
+          [<a href="https://github.com/d1ceward/xlsx-parser/blob/81224b1db08fe6c46daa4bf42b79bf85bc6f8200/src/xlsx-parser/book.cr#L6" target="_blank">View source</a>]
         
       </div>
     </div>
   
-
-
 
 
 </div>
