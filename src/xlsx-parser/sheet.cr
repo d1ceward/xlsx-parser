@@ -1,11 +1,12 @@
 module XlsxParser
   class Sheet
     getter node : XML::Reader
+    getter name : String
 
     # All possible output types
     alias Type = Bool | Float64 | Int32 | String | Time
 
-    def initialize(@book : Book, @file : String)
+    def initialize(@book : Book, @file : String, @name : String)
       @node = XML::Reader.new(@book.zip["xl/#{@file}"].open(&.gets_to_end))
     end
 
