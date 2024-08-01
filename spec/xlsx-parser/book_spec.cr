@@ -54,10 +54,57 @@ describe XlsxParser::Book do
     end
   end
 
+  describe "#sheet_exists?" do
+    it "returns true if sheet with given name exists" do
+      book = XlsxParser::Book.new("./spec/fixtures/sample.xlsx")
+      book.sheet_exists?("Sheet1").should be_truthy
+      book.close
+    end
+
+    it "returns false if sheet with given name does not exist" do
+      book = XlsxParser::Book.new("./spec/fixtures/sample.xlsx")
+      book.sheet_exists?("NonexistentSheet").should be_falsey
+      book.close
+    end
+  end
+
+  describe "#sheet" do
+    it "returns sheet with given name" do
+      book = XlsxParser::Book.new("./spec/fixtures/sample.xlsx")
+      sheet = book.sheet("Sheet1")
+      sheet.should be_a(XlsxParser::Sheet)
+      sheet.try(&.name).should eq("Sheet1")
+      book.close
+    end
+
+    it "returns nil if sheet with given name does not exist" do
+      book = XlsxParser::Book.new("./spec/fixtures/sample.xlsx")
+      sheet = book.sheet("NonexistentSheet")
+      sheet.should be_nil
+      book.close
+    end
+  end
+
+  describe "#close" do
+    it "closes the previously opened file" do
+      book = XlsxParser::Book.new("./spec/fixtures/sample.xlsx")
+      book.close
+      book.zip.closed?.should be_truthy
+    end
+  end
+
   describe "#style_types" do
     it "return an array of Sheet class instance" do
       book = XlsxParser::Book.new("./spec/fixtures/sample.xlsx")
       book.style_types
+      book.close
+    end
+  end
+
+  describe "#base_time" do
+    it "returns the base time from workbookPr" do
+      book = XlsxParser::Book.new("./spec/fixtures/sample.xlsx")
+      book.base_time.should eq(Time.utc(1899, 12, 30))
       book.close
     end
   end

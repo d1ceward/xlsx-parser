@@ -12,6 +12,7 @@ jobs:
   lints:
     name: Lints
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,7 +23,7 @@ jobs:
         with:
           crystal: ${{ env.CRYSTAL_VERSION }}
       - name: Crystal shard cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: lib
           key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
@@ -33,6 +34,7 @@ jobs:
   tests:
     name: Tests
     runs-on: ubuntu-latest
+    timeout-minutes: 15
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -43,7 +45,7 @@ jobs:
         with:
           crystal: ${{ env.CRYSTAL_VERSION }}
       - name: Crystal shard cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: lib
           key: ${{ runner.os }}-${{ matrix.crystal }}-shards-${{ hashFiles('**/shard.lock') }}

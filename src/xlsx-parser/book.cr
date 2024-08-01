@@ -44,46 +44,22 @@ module XlsxParser
       rels = XML.parse(@zip["xl/_rels/workbook.xml.rels"].open(&.gets_to_end))
 
       @sheets = sheets_nodes.map do |sheet|
-        sheetname = sheet["name"]
-        sheetfile = rels.xpath_string(
+        sheet_file = rels.xpath_string(
           "string(//*[name()='Relationship' and contains(@Id,'#{sheet["id"]}')]/@Target)"
         )
-        Sheet.new(self, sheetfile, sheetname)
+
+        Sheet.new(self, sheet_file, sheet["name"])
       end
     end
 
-    # Return True if the given sheet name appears in the workbook
-    def sheetname?(search_name : String)
-      this_sheet = sheetname search_name
-      if this_sheet.nil?
-        false
-      else
-        true
-      end
+    # Return true if sheet with given name exists otherwise return false
+    def sheet_exists?(name : String)
+      sheets.any? { |sheet| sheet.name == name }
     end
 
-    # Return the Worksheet with the given name, or nil if that sheet name
-    # can't be found in the workbook
-    def sheetname(search_name : String)
-      found_sheet = nil
-      @sheets.each do | sheet |
-        if sheet.name == search_name
-          found_sheet = sheet
-          break
-        end
-      end
-
-      found_sheet
-    end
-
-    # Return an array of all sheet names in the current workbook
-    def sheetnames
-      name_list = [] of String
-      @sheets.each do | sheet |
-        name_list << sheet.name
-      end
-
-      name_list
+    # Return sheet with given name
+    def sheet(name : String) : Sheet?
+      sheets.find { |sheet| sheet.name == name }
     end
 
     # Close previously opened given file/filename
