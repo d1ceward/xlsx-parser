@@ -4,7 +4,7 @@ authors:
   - d1ceward <contact@d1ceward.com>
 description: Crystal wrapper for parsing .xlsx spreadsheets
 license: MIT
-crystal: '>= 0.36.0, < 2.0.0'
+crystal: '>= 0.36.1, < 2.0.0'
 
 development_dependencies:
   ameba:
