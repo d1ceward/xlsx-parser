@@ -1,8 +1,11 @@
 require "./styles/parser"
 require "./styles/converter"
 
+# Module XlsxParser::Styles contains a map of non-custom numFmtId to casting symbol.
+#
+# The NumFmtMap is a hash that maps the numFmtId to the corresponding casting symbol.
+# The casting symbols represent the data type that should be used when parsing the cell value.
 module XlsxParser::Styles
-  # Map of non-custom numFmtId to casting symbol
   NumFmtMap = {
     0  => :string,         # General
     1  => :fixnum,         # 0

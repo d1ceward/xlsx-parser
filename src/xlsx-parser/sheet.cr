@@ -1,16 +1,23 @@
 module XlsxParser
+  # Represents a sheet in an Excel workbook.
+  #
+  # The `Sheet` class provides methods to read and manipulate data in a sheet.
   class Sheet
+    # The XML reader for the sheet.
     getter node : XML::Reader
+
+    # The name of the sheet.
     getter name : String
 
-    # All possible output types
+    # The possible types of cell values.
     alias Type = Bool | Float64 | Int32 | String | Time
 
+    # Initializes a new instance of the `Sheet` class.
     def initialize(@book : Book, @file : String, @name : String)
       @node = XML::Reader.new(@book.zip["xl/#{@file}"].open(&.gets_to_end))
     end
 
-    # Return a iterator which return an hash per row that includes the cell ids and values
+    # Returns an iterator that yields a hash per row, including the cell ids and values.
     def rows
       Iterator.of do
         row = nil
@@ -42,7 +49,8 @@ module XlsxParser
       end
     end
 
-    # Empty cells are being padded in using this function
+    # This private method is used to pad empty cells in a row.
+    # It returns a new row hash with padded empty cells.
     private def inner_padding(row : Hash(String, Type)?, row_index : String?, cell : String?)
       new_row = {} of String => Type | Nil
       return new_row unless row && row_index && cell
@@ -59,6 +67,7 @@ module XlsxParser
       new_row
     end
 
+    # Converts the given value to the specified type using the provided cell style index.
     private def convert(value : String, type : String?, cell_style_idx : Int32?)
       style = cell_style_idx ? @book.style_types[cell_style_idx] : nil
 
