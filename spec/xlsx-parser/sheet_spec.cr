@@ -28,6 +28,14 @@ describe XlsxParser::Sheet do
     book.close
   end
 
+  it "parses Int64 values correctly" do
+    book = XlsxParser::Book.new("./spec/fixtures/sample_int64.xlsx")
+    row = book.sheets[0].rows.first
+    row["A1"].should eq(133_369_153_956_i64)
+    row["B1"].should eq(1_234_567_890)
+    book.close
+  end
+
   it "return parsed 1904 date successfully" do
     data = [
       { "A1" => "Table 1", "B1" => nil },
@@ -59,6 +67,21 @@ describe XlsxParser::Sheet do
   it "return correct data format with unspecified style in XML" do
     book = XlsxParser::Book.new("./spec/fixtures/sample_unspecified_style.xlsx")
     book.sheets[0].rows.first.should eq({ "A1" => 42, "B1" => "string", "C1" => 2.3 })
+    book.close
+  end
+
+  it "handles empty sheets gracefully" do
+    book = XlsxParser::Book.new("./spec/fixtures/sample_empty_sheet.xlsx")
+    book.sheets[0].rows.to_a.should eq([] of Hash(String, XlsxParser::Sheet::Type))
+    book.close
+  end
+
+  it "parses boolean values correctly" do
+    # The sample_bool.xlsx should contain TRUE in A1 and FALSE in B1
+    book = XlsxParser::Book.new("./spec/fixtures/sample_bool.xlsx")
+    row = book.sheets[0].rows.first
+    row["A1"].should eq(true)
+    row["B1"].should eq(false)
     book.close
   end
 end
