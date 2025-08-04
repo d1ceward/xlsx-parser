@@ -2,28 +2,29 @@ module XlsxParser::Styles
   class Converter
     DATE_TYPES = %i[date time date_time]
 
-    # ameba:disable Metrics/CyclomaticComplexity
     def self.call(value : String, type : String?, style : Symbol?, book : Book)
-      # Sometimes the type is dictated by the style alone
-      if type.nil? || (type == "n" && DATE_TYPES.includes?(style))
-        type = style
-      end
+      resolved_type = resolve_type(type, style)
+      convert_value(value, resolved_type, book)
+    end
 
+    private def self.resolve_type(type : String?, style : Symbol?)
+      return style if type.nil? || (type == "n" && DATE_TYPES.includes?(style))
+
+      type
+    end
+
+    private def self.convert_value(value : String, type, book : Book)
       case type
-      when "s"
-        book.shared_strings[value.to_i]
-      when "n"
-        value.to_f
-      when "b"
-        value.to_i == 1
       when :string
         value
-      when :unsupported
-        convert_unknown(value)
+      when "s"
+        convert_shared_string(value, book)
+      when "n", :float, :percentage
+        convert_float(value)
+      when "b"
+        convert_boolean(value)
       when :fixnum
-        value.to_i
-      when :float, :percentage
-        value.to_f
+        convert_int(value)
       when :time, :date, :date_time
         convert_time(value, book)
       else
@@ -31,18 +32,39 @@ module XlsxParser::Styles
       end
     end
 
-    private def self.convert_unknown(value : String)
-      if value.to_i?.to_s == value
-        value.to_i
-      elsif value.to_f?.to_s == value
-        value.to_f
-      else
-        value
-      end
+    private def self.convert_shared_string(value : String, book : Book) : String
+      book.shared_strings[value.to_i]
+    end
+
+    private def self.convert_boolean(value : String) : Bool
+      value.to_i == 1
+    end
+
+    private def self.convert_int(value : String) : Int32 | Int64 | String
+      return value.to_i32 if value.to_i32?.to_s == value
+      return value.to_i64 if value.to_i64?.to_s == value
+
+      value
+    end
+
+    private def self.convert_float(value : String) : Float64 | String
+      return value.to_f if value.to_f?.to_s == value
+
+      value
     end
 
     private def self.convert_time(value : String, book : Book) : Time
       book.base_time + value.to_f.days
+    end
+
+    private def self.convert_unknown(value : String) : Int32 | Int64 | Float64 | String
+      int_value = convert_int(value)
+      return int_value unless int_value.is_a?(String)
+
+      float_value = convert_float(value)
+      return float_value unless float_value.is_a?(String)
+
+      value
     end
   end
 end

@@ -10,7 +10,7 @@ module XlsxParser
     getter name : String
 
     # The possible types of cell values.
-    alias Type = Bool | Float64 | Int32 | String | Time
+    alias Type = Bool | Float64 | Int32 | Int64 | String | Time
 
     # Initializes a new instance of the `Sheet` class.
     def initialize(@book : Book, @file : String, @name : String)
