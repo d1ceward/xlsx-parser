@@ -14,7 +14,11 @@ module XlsxParser::Styles
       end
 
       custom_style_types = parse_custom_style_types(styles)
-      styles_nodes = styles.xpath_nodes("//*[name()='styleSheet']//*[name()='cellXfs']//*[name()='xf']")
+
+      cell_xfs_node = styles.xpath_nodes("//*[name()='styleSheet']//*[name()='cellXfs']").first?
+      return [] of Symbol? unless cell_xfs_node
+
+      styles_nodes = cell_xfs_node.xpath_nodes("*[name()='xf']")
       return [] of Symbol? unless styles_nodes
 
       styles_nodes.map do |xstyle|
@@ -27,7 +31,10 @@ module XlsxParser::Styles
     private def self.parse_custom_style_types(styles) : Hash(Int32, Symbol)
       custom_style_types = {} of Int32 => Symbol
 
-      nodes = styles.xpath_nodes("//*[name()='styleSheet']//*[name()='numFmts']//*[name()='numFmt']")
+      numfmts_node = styles.xpath_nodes("//*[name()='styleSheet']//*[name()='numFmts']").first?
+      return custom_style_types unless numfmts_node
+
+      nodes = numfmts_node.xpath_nodes("*[name()='numFmt']")
       return custom_style_types unless nodes
 
       nodes.each do |xstyle|
