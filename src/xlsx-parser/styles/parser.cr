@@ -19,8 +19,12 @@ module XlsxParser::Styles
 
       styles.xpath_nodes("//*[name()='styleSheet']//*[name()='numFmts']//*[name()='numFmt']")
             .each do |xstyle|
-        index = xstyle.attributes["numFmtId"].content.to_i
-        value = xstyle.attributes["formatCode"].content
+        index_attr = xstyle.attributes["numFmtId"]?
+        value_attr = xstyle.attributes["formatCode"]?
+        next unless index_attr && value_attr
+
+        index = index_attr.content.to_i
+        value = value_attr.content
 
         custom_style_types[index] = determine_custom_style_type(value)
       end
