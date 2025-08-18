@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set crystal version environement variable
         run: echo "CRYSTAL_VERSION=$(cat .crystal-version)" >> $GITHUB_ENV
       - name: Install Crystal
@@ -37,7 +37,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Set crystal version environement variable
         run: echo "CRYSTAL_VERSION=$(cat .crystal-version)" >> $GITHUB_ENV
       - name: Install Crystal
