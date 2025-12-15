@@ -23,7 +23,7 @@ jobs:
         with:
           crystal: ${{ env.CRYSTAL_VERSION }}
       - name: Crystal shard cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: lib
           key: ${{ runner.os }}-shards-${{ hashFiles('**/shard.lock') }}
@@ -45,7 +45,7 @@ jobs:
         with:
           crystal: ${{ env.CRYSTAL_VERSION }}
       - name: Crystal shard cache
-        uses: actions/cache@v4
+        uses: actions/cache@v5
         with:
           path: lib
           key: ${{ runner.os }}-${{ matrix.crystal }}-shards-${{ hashFiles('**/shard.lock') }}
