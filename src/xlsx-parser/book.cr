@@ -8,7 +8,6 @@ module XlsxParser
     getter shared_strings : Array(String)
     getter style_types : Array(Symbol | Nil)?
     getter base_time : Time?
-    getter filename : String?
 
     TIME_1900 = Time.utc(1899, 12, 30)
     TIME_1904 = Time.utc(1904, 1, 1)
@@ -27,7 +26,6 @@ module XlsxParser
       end
 
       @zip = zip_file
-      @filename = file.is_a?(String) ? file : nil
       @shared_strings = [] of String
 
       if @zip["xl/sharedStrings.xml"]?
