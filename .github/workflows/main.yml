@@ -17,7 +17,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Set crystal version environement variable
-        run: echo "CRYSTAL_VERSION=$(cat .crystal-version)" >> $GITHUB_ENV
+        run: echo "CRYSTAL_VERSION=$(grep '^crystal' .tool-versions | awk '{print $2}')" >> $GITHUB_ENV
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
@@ -39,7 +39,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v6
       - name: Set crystal version environement variable
-        run: echo "CRYSTAL_VERSION=$(cat .crystal-version)" >> $GITHUB_ENV
+        run: echo "CRYSTAL_VERSION=$(grep '^crystal' .tool-versions | awk '{print $2}')" >> $GITHUB_ENV
       - name: Install Crystal
         uses: crystal-lang/install-crystal@v1
         with:
