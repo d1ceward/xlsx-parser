@@ -15,7 +15,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Set crystal version environement variable
         run: echo "CRYSTAL_VERSION=$(grep '^crystal' .tool-versions | awk '{print $2}')" >> $GITHUB_ENV
       - name: Install Crystal
@@ -37,7 +37,7 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Checkout code
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
       - name: Set crystal version environement variable
         run: echo "CRYSTAL_VERSION=$(grep '^crystal' .tool-versions | awk '{print $2}')" >> $GITHUB_ENV
       - name: Install Crystal
