@@ -1,6 +1,6 @@
 module XlsxParser::Styles
   class Parser
-    def self.call(book : Book) : Array(Symbol | Nil)
+    def self.call(book : Book) : Array(Symbol?)
       return [] of Symbol? unless (styles_file = book.zip["xl/styles.xml"]?)
 
       styles_content = styles_file.open(&.gets_to_end)
@@ -8,7 +8,7 @@ module XlsxParser::Styles
 
       begin
         styles = XML.parse(styles_content)
-      rescue ex : Exception
+      rescue Exception
         # If XML is invalid or cannot be parsed, return empty
         return [] of Symbol?
       end

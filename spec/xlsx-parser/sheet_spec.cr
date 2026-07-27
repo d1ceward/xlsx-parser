@@ -80,8 +80,8 @@ describe XlsxParser::Sheet do
     # The sample_bool.xlsx should contain TRUE in A1 and FALSE in B1
     book = XlsxParser::Book.new("./spec/fixtures/sample_bool.xlsx")
     row = book.sheets[0].rows.first
-    row["A1"].should eq(true)
-    row["B1"].should eq(false)
+    row["A1"].should be_true
+    row["B1"].should be_false
     book.close
   end
 end

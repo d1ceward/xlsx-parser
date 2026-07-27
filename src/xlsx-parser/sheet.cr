@@ -52,7 +52,7 @@ module XlsxParser
     # This private method is used to pad empty cells in a row.
     # It returns a new row hash with padded empty cells.
     private def inner_padding(row : Hash(String, Type)?, row_index : String?, cell : String?)
-      new_row = {} of String => Type | Nil
+      new_row = {} of String => Type?
       return new_row unless row && row_index && cell
 
       cell_begin = "A"

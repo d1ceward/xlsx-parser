@@ -6,7 +6,7 @@ module XlsxParser
     getter zip : Compress::Zip::File
     getter sheets : Array(Sheet) = [] of Sheet
     getter shared_strings : Array(String)
-    getter style_types : Array(Symbol | Nil)?
+    getter style_types : Array(Symbol?)?
     getter base_time : Time?
 
     TIME_1900 = Time.utc(1899, 12, 30)

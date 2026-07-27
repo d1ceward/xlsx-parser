@@ -4,7 +4,6 @@ tmp/
 
 # Ignore binaries
 bin/*
-!bin/ameba.cr
 !bin/coverage
 !bin/release
 
