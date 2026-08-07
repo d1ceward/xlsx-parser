@@ -52,6 +52,24 @@ book.sheets[1]
 book.close
 ```
 
+### Extract Formulas
+```crystal
+# Extract formulas from a specific sheet
+formulas = XlsxParser::Formula.extract_file("./my_super_spreadsheet.xlsx", 0)
+# => {"A1" => "SUM(B1:B10)", "C5" => "AVERAGE(A1:A10)"}
+
+# Extract formulas using a Book object
+book = XlsxParser::Book.new("./my_super_spreadsheet.xlsx")
+formulas = XlsxParser::Formula.extract(book, 0)
+# => {"A1" => "SUM(B1:B10)", "C5" => "AVERAGE(A1:A10)"}
+
+# Extract formulas from all sheets
+all_formulas = XlsxParser::Formula.extract_all_sheets("./my_super_spreadsheet.xlsx", book.sheets.size)
+# => [{"A1" => "SUM(B1:B10)"}, {"C3" => "MAX(A1:A10)"}]
+
+book.close
+```
+
 Documentation available here : https://d1ceward.github.io/xlsx-parser/
 
 ## Contributing
