@@ -9,7 +9,7 @@ describe XlsxParser::Book do
     end
 
     it "fail to open a legacy xls file" do
-      expect_raises(ArgumentError, "Not a valid file format") do
+      expect_raises(XlsxParser::InvalidFileError, "Not a valid file format") do
         XlsxParser::Book.new("./spec/fixtures/invalid.xls")
       end
     end
@@ -20,7 +20,7 @@ describe XlsxParser::Book do
     end
 
     it "check file extensions on request" do
-      expect_raises(ArgumentError, "Not a valid file format") do
+      expect_raises(XlsxParser::InvalidFileError, "Not a valid file format") do
         XlsxParser::Book.new("./spec/fixtures/sample.zip", check_file_extension: true)
       end
     end
@@ -34,7 +34,7 @@ describe XlsxParser::Book do
     it "fail to open a legacy xls from io" do
       file_io = File.new("./spec/fixtures/invalid.xls")
 
-      expect_raises(ArgumentError, "Not a valid file format") do
+      expect_raises(XlsxParser::InvalidFileError, "Not a valid file format") do
         XlsxParser::Book.new(file_io)
       end
     end
@@ -105,6 +105,89 @@ describe XlsxParser::Book do
     it "returns the base time from workbookPr" do
       book = XlsxParser::Book.new("./spec/fixtures/sample.xlsx")
       book.base_time.should eq(Time.utc(1899, 12, 30))
+      book.close
+    end
+  end
+
+  describe ".open" do
+    it "yields the book and closes it afterwards" do
+      zip = nil
+      XlsxParser::Book.open("./spec/fixtures/sample.xlsx") do |book|
+        book.sheets.size.should eq(2)
+        zip = book.zip
+      end
+      zip.try(&.closed?).should be_true
+    end
+
+    it "closes the book when the block raises" do
+      zip = nil
+      expect_raises(Exception, "boom") do
+        XlsxParser::Book.open("./spec/fixtures/sample.xlsx") do |book|
+          zip = book.zip
+          raise "boom"
+        end
+      end
+      zip.try(&.closed?).should be_true
+    end
+  end
+
+  describe "errors" do
+    it "raises an InvalidFileError which is a XlsxParser::Error" do
+      expect_raises(XlsxParser::Error, "Not a valid file format") do
+        XlsxParser::Book.new("./spec/fixtures/invalid.xls")
+      end
+    end
+
+    it "raises an InvalidFileError when workbook.xml is missing" do
+      io = IO::Memory.new
+      Compress::Zip::Writer.open(io, &.add("foo.txt", "bar"))
+      io.rewind
+
+      expect_raises(XlsxParser::InvalidFileError, "Missing xl/workbook.xml") do
+        XlsxParser::Book.new(io)
+      end
+    end
+  end
+
+  describe "sheets resolution" do
+    it "memoizes sheets" do
+      XlsxParser::Book.open("./spec/fixtures/sample.xlsx") do |book|
+        book.sheets[0].should be(book.sheets[0])
+      end
+    end
+
+    it "maps each sheet to its own relationship when there are 10+ sheets" do
+      sheets = (1..11).to_h { |index| {"S#{index}", %(<sheetData><row r="1"><c r="A1" t="inlineStr"><is><t>#{index}</t></is></c></row></sheetData>)} }
+      book = XlsxParser::Book.new(XlsxBuilder.build(sheets))
+
+      book.sheets.map { |sheet| sheet.rows.first["A1"] }.should eq((1..11).map(&.to_s))
+      book.close
+    end
+
+    it "supports absolute relationship targets" do
+      io = XlsxBuilder.build({"S1" => %(<sheetData><row r="1"><c r="A1"><v>1</v></c></row></sheetData>)},
+        absolute_targets: true)
+      book = XlsxParser::Book.new(io)
+      book.sheets[0].rows.first.should eq({"A1" => 1})
+      book.close
+    end
+
+    it "exposes the sheet visibility" do
+      io = XlsxBuilder.build({"S1" => "<sheetData/>", "S2" => "<sheetData/>"}, states: {"S2" => "hidden"})
+      book = XlsxParser::Book.new(io)
+      book.sheets.map(&.hidden?).should eq([false, true])
+      book.sheets[1].state.should eq("hidden")
+      book.close
+    end
+  end
+
+  describe "#shared_strings" do
+    it "concatenates rich text runs and ignores phonetic runs" do
+      shared_strings = "<si><t>plain</t></si>" \
+                       "<si><r><rPr><b/></rPr><t>Rich </t></r><r><t>text</t></r><rPh><t>ignored</t></rPh></si>" \
+                       "<si><t>after</t></si>"
+      book = XlsxParser::Book.new(XlsxBuilder.build({"S1" => "<sheetData/>"}, shared_strings: shared_strings))
+      book.shared_strings.should eq(["plain", "Rich text", "after"])
       book.close
     end
   end

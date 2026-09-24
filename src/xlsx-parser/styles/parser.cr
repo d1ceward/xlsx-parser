@@ -1,64 +1,62 @@
 module XlsxParser::Styles
   class Parser
-    def self.call(book : Book) : Array(Symbol?)
-      return [] of Symbol? unless (styles_file = book.zip["xl/styles.xml"]?)
-
-      styles_content = styles_file.open(&.gets_to_end)
-      return [] of Symbol? unless styles_content
+    # Return the `Format` of each cell style (cellXfs), indexed by style id
+    def self.call(book : Book) : Array(Format)
+      return [] of Format unless (styles_file = book.zip["xl/styles.xml"]?)
 
       begin
-        styles = XML.parse(styles_content)
-      rescue Exception
+        styles = XML.parse(styles_file.open(&.gets_to_end))
+      rescue XML::Error
         # If XML is invalid or cannot be parsed, return empty
-        return [] of Symbol?
+        return [] of Format
       end
 
       custom_style_types = parse_custom_style_types(styles)
 
-      cell_xfs_node = styles.xpath_nodes("//*[name()='styleSheet']//*[name()='cellXfs']").first?
-      return [] of Symbol? unless cell_xfs_node
+      cell_xfs_node = styles.xpath_nodes("//*[local-name()='styleSheet']//*[local-name()='cellXfs']").first?
+      return [] of Format unless cell_xfs_node
 
-      styles_nodes = cell_xfs_node.xpath_nodes("*[name()='xf']")
-      return [] of Symbol? unless styles_nodes
+      cell_xfs_node.xpath_nodes("*[local-name()='xf']").map do |xstyle|
+        # numFmtId defaults to 0 (General) when omitted
+        num_fmt_id = xstyle["numFmtId"]?.try(&.to_i?) || 0
 
-      styles_nodes.map do |xstyle|
-        next unless (num_fmt_id = xstyle.attributes["numFmtId"]?.try(&.content).try(&.to_i))
-
-        NumFmtMap[num_fmt_id]? || custom_style_types[num_fmt_id]
+        NumFmtMap[num_fmt_id]? || custom_style_types[num_fmt_id]? || Format::Unsupported
       end
     end
 
-    private def self.parse_custom_style_types(styles) : Hash(Int32, Symbol)
-      custom_style_types = {} of Int32 => Symbol
+    private def self.parse_custom_style_types(styles) : Hash(Int32, Format)
+      custom_style_types = {} of Int32 => Format
 
-      numfmts_node = styles.xpath_nodes("//*[name()='styleSheet']//*[name()='numFmts']").first?
+      numfmts_node = styles.xpath_nodes("//*[local-name()='styleSheet']//*[local-name()='numFmts']").first?
       return custom_style_types unless numfmts_node
 
-      nodes = numfmts_node.xpath_nodes("*[name()='numFmt']")
-      return custom_style_types unless nodes
+      numfmts_node.xpath_nodes("*[local-name()='numFmt']").each do |xstyle|
+        index = xstyle["numFmtId"]?.try(&.to_i?)
+        format_code = xstyle["formatCode"]?
+        next unless index && format_code
 
-      nodes.each do |xstyle|
-        index_attr = xstyle.attributes["numFmtId"]?
-        value_attr = xstyle.attributes["formatCode"]?
-        next unless index_attr && value_attr
-
-        index = index_attr.content.to_i
-        value = value_attr.content
-
-        custom_style_types[index] = determine_custom_style_type(value)
+        custom_style_types[index] = determine_custom_style_type(format_code)
       end
 
       custom_style_types
     end
 
-    private def self.determine_custom_style_type(string : String) : Symbol
-      return :float if string[0] == '_'
-      return :float if string[0] == '0'
+    # :nodoc:
+    def self.determine_custom_style_type(format_code : String) : Format
+      # Remove quoted literals ("days"), escaped chars (\d) and meta-stuff like [Red] or [$-409]
+      # but keep elapsed time markers like [h] or [mm]
+      code = format_code
+        .gsub(/"[^"]*"/, "")
+        .gsub(/\\./, "")
+        .gsub(/\[(?![hms]+\])[^\]]*\]/i, "")
+        .gsub(/[\[\]]/, "")
 
-      # Looks for one of ymdhis outside of meta-stuff like [Red]
-      return :date_time if string =~ /(^|\])[^[]*[ymdhis]/i
+      return Format::Unsupported if code.empty?
+      return Format::DateTime if code =~ /[ymdhs]/i
+      return Format::Percentage if code.includes?('%')
+      return Format::Float if code.starts_with?('0') || code.starts_with?('_')
 
-      :unsupported
+      Format::Unsupported
     end
   end
 end

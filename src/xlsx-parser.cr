@@ -1,3 +1,4 @@
+require "./xlsx-parser/errors"
 require "./xlsx-parser/book"
 require "./xlsx-parser/sheet"
 require "./xlsx-parser/styles"
