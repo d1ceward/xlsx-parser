@@ -157,7 +157,10 @@ describe XlsxParser::Book do
     end
 
     it "maps each sheet to its own relationship when there are 10+ sheets" do
-      sheets = (1..11).to_h { |index| {"S#{index}", %(<sheetData><row r="1"><c r="A1" t="inlineStr"><is><t>#{index}</t></is></c></row></sheetData>)} }
+      sheets = (1..11).to_h do |index|
+        cell = %(<c r="A1" t="inlineStr"><is><t>#{index}</t></is></c>)
+        {"S#{index}", %(<sheetData><row r="1">#{cell}</row></sheetData>)}
+      end
       book = XlsxParser::Book.new(XlsxBuilder.build(sheets))
 
       book.sheets.map { |sheet| sheet.rows.first["A1"] }.should eq((1..11).map(&.to_s))
@@ -184,7 +187,8 @@ describe XlsxParser::Book do
   describe "#shared_strings" do
     it "concatenates rich text runs and ignores phonetic runs" do
       shared_strings = "<si><t>plain</t></si>" \
-                       "<si><r><rPr><b/></rPr><t>Rich </t></r><r><t>text</t></r><rPh><t>ignored</t></rPh></si>" \
+                       "<si><r><rPr><b/></rPr><t>Rich </t></r><r><t>text</t></r>" \
+                       "<rPh><t>ignored</t></rPh></si>" \
                        "<si><t>after</t></si>"
       book = XlsxParser::Book.new(XlsxBuilder.build({"S1" => "<sheetData/>"}, shared_strings: shared_strings))
       book.shared_strings.should eq(["plain", "Rich text", "after"])

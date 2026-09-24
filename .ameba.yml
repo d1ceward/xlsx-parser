@@ -6,5 +6,18 @@ Globs:
 Lint/Formatting:
   Enabled: false
 
-Style/ParenthesesAroundCondition:
-  AllowSafeAssignment: true
+Layout/LineLength:
+  Enabled: true
+  MaxLength: 110
+
+Style/GuardClause:
+  Enabled: true
+
+Style/CallParentheses:
+  Enabled: true
+
+Style/LargeNumbers:
+  Enabled: true
+
+Typing/MethodReturnTypeRestriction:
+  Enabled: true

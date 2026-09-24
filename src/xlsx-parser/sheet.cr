@@ -16,7 +16,7 @@ module XlsxParser
     getter state : String
 
     # Initializes a new instance of the `Sheet` class, *path* is the sheet XML path inside the zip.
-    def initialize(@book : Book, @path : String, @name : String, @state : String = "visible")
+    def initialize(@book : Book, @path : String, @name : String, @state : String = "visible") : Nil
     end
 
     # Returns true if the sheet is hidden or very hidden.
@@ -123,10 +123,10 @@ module XlsxParser
 
       @row_number = 0
 
-      def initialize(@book : Book, @reader : XML::Reader)
+      def initialize(@book : Book, @reader : XML::Reader) : Nil
       end
 
-      def next
+      def next : Row | Iterator::Stop
         while @reader.read
           return read_row if element?("row")
         end

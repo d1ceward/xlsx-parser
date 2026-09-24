@@ -2,7 +2,7 @@ module XlsxParser::Styles
   class Parser
     # Return the `Format` of each cell style (cellXfs), indexed by style id
     def self.call(book : Book) : Array(Format)
-      return [] of Format unless (styles_file = book.zip["xl/styles.xml"]?)
+      return [] of Format unless styles_file = book.zip["xl/styles.xml"]?
 
       begin
         styles = XML.parse(styles_file.open(&.gets_to_end))

@@ -7,7 +7,7 @@ describe XlsxParser::Styles::Parser do
     it "parses style types from a real xlsx file" do
       book = XlsxParser::Book.new("spec/fixtures/sample.xlsx")
       result = XlsxParser::Styles::Parser.call(book)
-      result.should eq([F::Unsupported, F::Unsupported, F::Unsupported, F::Unsupported, F::Unsupported, F::Unsupported])
+      result.should eq([F::Unsupported] * 6)
     end
 
     it "returns an array with correct types for sample_int64.xlsx" do
@@ -25,15 +25,13 @@ describe XlsxParser::Styles::Parser do
     it "returns an array for a file with only dates (1900)" do
       book = XlsxParser::Book.new("spec/fixtures/sample_dates_1900.xlsx")
       result = XlsxParser::Styles::Parser.call(book)
-      result.should eq([F::Unsupported, F::Unsupported, F::Unsupported, F::Unsupported, F::Unsupported, F::DateTime,
-                        F::DateTime, F::DateTime])
+      result.should eq([F::Unsupported] * 5 + [F::DateTime] * 3)
     end
 
     it "returns an array for a file with only dates (1904)" do
       book = XlsxParser::Book.new("spec/fixtures/sample_dates_1904.xlsx")
       result = XlsxParser::Styles::Parser.call(book)
-      result.should eq([F::Unsupported, F::Unsupported, F::Unsupported, F::Unsupported, F::Unsupported, F::DateTime,
-                        F::DateTime, F::DateTime])
+      result.should eq([F::Unsupported] * 5 + [F::DateTime] * 3)
     end
 
     it "returns an array for a file with unspecified styles" do
@@ -53,7 +51,7 @@ describe XlsxParser::Styles::Parser do
     styles = %(<numFmts count="1"><numFmt numFmtId="200" formatCode=""/></numFmts>) \
              %(<cellXfs count="4"><xf numFmtId="44"/><xf numFmtId="200"/><xf numFmtId="999"/><xf/></cellXfs>)
     book = XlsxParser::Book.new(XlsxBuilder.build({"S1" => "<sheetData/>"}, styles: styles))
-    XlsxParser::Styles::Parser.call(book).should eq([F::Unsupported, F::Unsupported, F::Unsupported, F::General])
+    XlsxParser::Styles::Parser.call(book).should eq([F::Unsupported] * 3 + [F::General])
     book.close
   end
 

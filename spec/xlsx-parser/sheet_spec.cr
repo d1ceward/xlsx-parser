@@ -42,7 +42,7 @@ describe XlsxParser::Sheet do
       {"A2" => nil, "B2" => nil},
       {"A3" => "Date", "B3" => Time.utc(2021, 1, 1)},
       {"A4" => "Datetime 00:00:00", "B4" => Time.utc(2021, 1, 1)},
-      {"A5" => "Datetime", "B5" => Time.utc(2021, 1, 1, 23, 59, 58, nanosecond: 999997616)},
+      {"A5" => "Datetime", "B5" => Time.utc(2021, 1, 1, 23, 59, 58, nanosecond: 999_997_616)},
     ]
 
     book = XlsxParser::Book.new("./spec/fixtures/sample_dates_1904.xlsx")
@@ -56,7 +56,7 @@ describe XlsxParser::Sheet do
       {"A2" => nil, "B2" => nil},
       {"A3" => "Date", "B3" => Time.utc(2021, 1, 1)},
       {"A4" => "Datetime 00:00:00", "B4" => Time.utc(2021, 1, 1)},
-      {"A5" => "Datetime", "B5" => Time.utc(2021, 1, 1, 23, 59, 58, nanosecond: 999997616)},
+      {"A5" => "Datetime", "B5" => Time.utc(2021, 1, 1, 23, 59, 58, nanosecond: 999_997_616)},
     ]
 
     book = XlsxParser::Book.new("./spec/fixtures/sample_dates_1900.xlsx")
@@ -133,7 +133,9 @@ describe XlsxParser::Sheet do
         </sheetData>
         XML
       }))
-      book.sheets[0].rows.to_a.should eq([{"A1" => 1}, {} of String => XlsxParser::Sheet::Type?, {"A3" => nil, "B3" => 3}])
+      book.sheets[0].rows.to_a.should eq([
+        {"A1" => 1}, {} of String => XlsxParser::Sheet::Type?, {"A3" => nil, "B3" => 3},
+      ])
       book.close
     end
 
@@ -150,7 +152,8 @@ describe XlsxParser::Sheet do
     end
 
     it "handles columns after Z" do
-      book = XlsxParser::Book.new(XlsxBuilder.build({"S1" => %(<sheetData><row r="1"><c r="AB1"><v>1</v></c></row></sheetData>)}))
+      content = %(<sheetData><row r="1"><c r="AB1"><v>1</v></c></row></sheetData>)
+      book = XlsxParser::Book.new(XlsxBuilder.build({"S1" => content}))
       row = book.sheets[0].rows.first
       row.size.should eq(28)
       row["AB1"].should eq(1)
@@ -159,7 +162,8 @@ describe XlsxParser::Sheet do
 
     it "handles namespace prefixed elements" do
       content = %(<x:worksheet xmlns:x="http://schemas.openxmlformats.org/spreadsheetml/2006/main">) \
-                %(<x:sheetData><x:row r="1"><x:c r="A1"><x:v>1</x:v></x:c></x:row></x:sheetData></x:worksheet>)
+                %(<x:sheetData><x:row r="1"><x:c r="A1"><x:v>1</x:v></x:c></x:row></x:sheetData>) \
+                %(</x:worksheet>)
       io = IO::Memory.new
       source = XlsxBuilder.build({"S1" => "<sheetData/>"})
       Compress::Zip::Writer.open(io) do |zip|
@@ -181,8 +185,12 @@ describe XlsxParser::Sheet do
     it "indexes rows by the first row values" do
       book = XlsxParser::Book.new(XlsxBuilder.build({"S1" => <<-XML
         <sheetData>
-          <row r="1"><c r="A1" t="inlineStr"><is><t>Name</t></is></c><c r="C1" t="inlineStr"><is><t>Age</t></is></c></row>
-          <row r="2"><c r="A2" t="inlineStr"><is><t>Alice</t></is></c><c r="B2"><v>1</v></c><c r="C2"><v>30</v></c></row>
+          <row r="1">
+            <c r="A1" t="inlineStr"><is><t>Name</t></is></c><c r="C1" t="inlineStr"><is><t>Age</t></is></c>
+          </row>
+          <row r="2">
+            <c r="A2" t="inlineStr"><is><t>Alice</t></is></c><c r="B2"><v>1</v></c><c r="C2"><v>30</v></c>
+          </row>
         </sheetData>
         XML
       }))

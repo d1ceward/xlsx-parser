@@ -15,7 +15,7 @@ module XlsxParser
     @style_types : Array(Styles::Format)?
 
     # Open given file/filename, yield the book and close it afterwards
-    def self.open(file : IO | String, check_file_extension = true, &)
+    def self.open(file : IO | String, check_file_extension = true, & : Book -> T) : T forall T
       book = new(file, check_file_extension)
 
       begin
@@ -26,7 +26,7 @@ module XlsxParser
     end
 
     # Open given file/filename and store shared strings data
-    def initialize(file : IO | String, check_file_extension = true)
+    def initialize(file : IO | String, check_file_extension = true) : Nil
       if file.is_a?(String) && check_file_extension
         extname = File.extname(file).downcase
         raise InvalidFileError.new("Not a valid file format") if extname != ".xlsx"
@@ -49,7 +49,8 @@ module XlsxParser
     def sheets : Array(Sheet)
       @sheets ||= begin
         targets = {} of String => String
-        Book.parse_xml(@zip, "xl/_rels/workbook.xml.rels").xpath_nodes("//*[local-name()='Relationship']").each do |rel|
+        rels = Book.parse_xml(@zip, "xl/_rels/workbook.xml.rels")
+        rels.xpath_nodes("//*[local-name()='Relationship']").each do |rel|
           id, target = rel["Id"]?, rel["Target"]?
           targets[id] = target if id && target
         end
@@ -74,7 +75,7 @@ module XlsxParser
     end
 
     # Close previously opened given file/filename
-    def close
+    def close : Nil
       @zip.close
     end
 
@@ -107,7 +108,8 @@ module XlsxParser
     protected def self.parse_shared_strings(zip : Compress::Zip::File) : Array(String)
       return [] of String unless zip["xl/sharedStrings.xml"]?
 
-      parse_xml(zip, "xl/sharedStrings.xml").xpath_nodes("//*[local-name()='sst']/*[local-name()='si']").map do |node|
+      shared_strings = parse_xml(zip, "xl/sharedStrings.xml")
+      shared_strings.xpath_nodes("//*[local-name()='sst']/*[local-name()='si']").map do |node|
         Book.text_content(node)
       end
     end
@@ -121,7 +123,9 @@ module XlsxParser
           when "t"
             io << child.content
           when "r"
-            child.children.each { |run_child| io << run_child.content if Sheet.local_name(run_child.name) == "t" }
+            child.children.each do |run_child|
+              io << run_child.content if Sheet.local_name(run_child.name) == "t"
+            end
           end
         end
       end
