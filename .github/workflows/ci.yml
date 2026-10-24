@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Set crystal version environement variable
+      - name: Set crystal version environment variable
         run: echo "CRYSTAL_VERSION=$(grep '^crystal' .tool-versions | awk '{print $2}')" >> $GITHUB_ENV
       - name: Install Crystal
         uses: crystal-lang/install-crystal@19ef8675e43f44f0d38b79f732df7ad4b6b669ed # v1.9.4
@@ -32,24 +32,29 @@ jobs:
       - name: Run ameba
         run: crystal lib/ameba/bin/ameba.cr
   tests:
-    name: Tests
+    name: Tests (Crystal ${{ matrix.crystal }})
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        # Minimum supported version (shard.yml) and development version (.tool-versions)
+        crystal:
+          - 0.36.1
+          - tool-versions
     steps:
       - name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-      - name: Set crystal version environement variable
-        run: echo "CRYSTAL_VERSION=$(grep '^crystal' .tool-versions | awk '{print $2}')" >> $GITHUB_ENV
+      - name: Set crystal version environment variable
+        run: |
+          if [ "${{ matrix.crystal }}" = "tool-versions" ]; then
+            echo "CRYSTAL_VERSION=$(grep '^crystal' .tool-versions | awk '{print $2}')" >> $GITHUB_ENV
+          else
+            echo "CRYSTAL_VERSION=${{ matrix.crystal }}" >> $GITHUB_ENV
+          fi
       - name: Install Crystal
         uses: crystal-lang/install-crystal@19ef8675e43f44f0d38b79f732df7ad4b6b669ed # v1.9.4
         with:
           crystal: ${{ env.CRYSTAL_VERSION }}
-      - name: Crystal shard cache
-        uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
-        with:
-          path: lib
-          key: ${{ runner.os }}-${{ matrix.crystal }}-shards-${{ hashFiles('**/shard.lock') }}
-      - name: Install dependencies
-        run: shards install --production
       - name: Run tests
         run: crystal spec
