@@ -11,3 +11,6 @@ bin/*
 coverage/
 run_tests.cr
 run_tests
+
+# Ignore generated documentation (published by the Docs workflow)
+docs/

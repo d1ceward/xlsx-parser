@@ -1,68 +1,71 @@
 module XlsxParser::Styles
   class Converter
-    DATE_TYPES = %i[date time date_time]
+    ISO_DATE_FORMATS = ["%FT%T.%N", "%FT%T", "%F"]
 
-    def self.call(value : String, type : String?, style : Symbol?, book : Book)
-      resolved_type = resolve_type(type, style)
-      convert_value(value, resolved_type, book)
-    end
-
-    private def self.resolve_type(type : String?, style : Symbol?)
-      return style if type.nil? || (type == "n" && DATE_TYPES.includes?(style))
-
-      type
-    end
-
-    private def self.convert_value(value : String, type, book : Book)
+    # Convert the raw `value` of a cell given its type attribute (`t`) and style format.
+    #
+    # Handled cell types: s (shared string), inlineStr, str (formula string), e (error),
+    # b (boolean), d (ISO 8601 date) and n (number, the default).
+    def self.call(value : String, type : String?, style : Format?, book : Book) : Sheet::Type
       case type
-      when :string
-        value
       when "s"
         convert_shared_string(value, book)
-      when "n", :float, :percentage
-        convert_float(value)
+      when "inlineStr", "str", "e"
+        value
       when "b"
-        convert_boolean(value)
-      when :fixnum
-        convert_int(value)
-      when :time, :date, :date_time
-        convert_time(value, book)
+        value == "1" || value.downcase == "true"
+      when "d"
+        convert_iso_date(value)
       else
-        convert_unknown(value)
+        convert_number(value, style || Format::General, book)
+      end
+    end
+
+    private def self.convert_number(value : String, style : Format, book : Book) : Sheet::Type
+      case style
+      when .temporal?
+        convert_time(value, book)
+      when .integer?
+        convert_int(value) || convert_float(value) || value
+      when .float?, .percentage?, .scientific?
+        convert_float(value) || value
+      else
+        convert_int(value) || convert_float(value) || value
       end
     end
 
     private def self.convert_shared_string(value : String, book : Book) : String
-      book.shared_strings[value.to_i]
+      index = value.to_i? || raise InvalidFileError.new("Invalid shared string index: #{value}")
+      book.shared_strings[index]? || raise InvalidFileError.new("Missing shared string at index #{index}")
     end
 
-    private def self.convert_boolean(value : String) : Bool
-      value.to_i == 1
+    private def self.convert_int(value : String) : (Int32 | Int64)?
+      value.to_i32? || value.to_i64?
     end
 
-    private def self.convert_int(value : String) : Int32 | Int64 | String
-      return value.to_i32 if value.to_i32?.to_s == value
-      return value.to_i64 if value.to_i64?.to_s == value
-
-      value
+    private def self.convert_float(value : String) : Float64?
+      value.to_f?
     end
 
-    private def self.convert_float(value : String) : Float64 | String
-      return value.to_f if value.to_f?.to_s == value
+    private def self.convert_time(value : String, book : Book) : Time | String
+      days = value.to_f?
+      return value unless days
 
-      value
+      book.base_time + days.days
     end
 
-    private def self.convert_time(value : String, book : Book) : Time
-      book.base_time + value.to_f.days
-    end
+    # Excel may omit the time zone or the time part, values are then considered as UTC
+    private def self.convert_iso_date(value : String) : Time | String
+      begin
+        return Time.parse_iso8601(value)
+      rescue Time::Format::Error
+      end
 
-    private def self.convert_unknown(value : String) : Int32 | Int64 | Float64 | String
-      int_value = convert_int(value)
-      return int_value unless int_value.is_a?(String)
-
-      float_value = convert_float(value)
-      return float_value unless float_value.is_a?(String)
+      ISO_DATE_FORMATS.each do |format|
+        return Time.parse_utc(value, format)
+      rescue Time::Format::Error
+        next
+      end
 
       value
     end
